@@ -1,0 +1,33 @@
+{% load static %}
+
+style="background-image:
+            {% if course.dance_style.name == 'Ballet' %}
+                url('{% static 'images/ballet-dance-class-banner.jpg' %}')
+            {% elif course.dance_style.name == 'Ballroom' %}
+                url('{% static 'images/ballroom-dance-class-banner.jpeg' %}')
+            {% elif course.dance_style.name == 'Belly Dance' %}
+                url('{% static 'images/belly-dance-class-banner2.jpg' %}')
+            {% elif course.dance_style.name == 'Bollywood' %}
+                url('{% static 'images/bollywood-dance-class-banner.jpg' %}')
+            {% elif course.dance_style.name == 'Burlesque' %}
+                url('{% static 'images/burlesque-dance-class-banner2.jpeg' %}')
+            {% elif course.dance_style.name == 'Contemporary' %}
+                url('{% static 'images/contemporary-dance-class-banner.jpg' %}')
+            {% elif course.dance_style.name == 'Flamenco' %}
+                url('{% static 'images/flamenco-dance-class-banner.jpg' %}')
+            {% elif course.dance_style.name == 'Pole Dance' %}
+                url('{% static 'images/pole-dance-class-banner.jpg' %}')
+            {% elif course.dance_style.name == 'Salsa' %}
+                url('{% static 'images/salsa-dance-class-banner.jpg' %}')
+            {% elif course.dance_style.name == 'Street Dance' %}
+                url('{% static 'images/street-dance.jpg' %}')
+            {% elif course.dance_style.name == 'Tango' %}
+                url('{% static 'images/tango-dance-class-banner.jpg' %}')
+            {% elif course.dance_style.name == 'Tap' %}
+                url('{% static 'images/tap-dance-class-banner.jpg' %}')
+            {% else %}
+                url('{% static 'images/ballet_bg_2.jpg' %}')
+            {% endif %};"
+
+
+
