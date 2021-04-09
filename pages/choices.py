@@ -21,14 +21,47 @@ course_level_choices = [
 ]
 
 location_choices = [
+    ('bath', 'Bath'),
+    ('birmingham', 'Birmingham'),
+    ('blackpool', 'Blackpool'),
+    ('bournemouth', 'Bournemouth'),
     ('brighton', 'Brighton'),
+    ('bristol', 'Bristol'),
+    ('cambridge', 'Cambridge'),
+    ('canterbury', 'Canterbury'),
+    ('cardiff', 'Cardiff'),
+    ('chester', 'Chester'),
+    ('coventry', 'Coventry'),
+    ('derby', 'Derby'),
+    ('durham', 'Durham'),
+    ('eastbourne', 'Eastbourne'),
+    ('edingurgh', 'Edinburgh'),
+    ('exeter', 'Exeter'),
+    ('glasgow', 'Glasgow'),
+    ('harrogate', 'Harrogate'),
+    ('hull', 'Hull'),
+    ('ipswich', 'Ipswich'),
+    ('kent', 'Kent'),
+    ('lancaster', 'Lancaster'),
     ('leeds', 'Leeds'),
+    ('leicester', 'Leicester'),
     ('liverpool', 'Liverpool'),
+    ('london', 'london'),
     ('manchester', 'Manchester'),
+    ('newcastle', 'Newcastle'),
     ('nottingham', 'Nottingham'),
+    ('oxford', 'Oxford'),
     ('portsmouth', 'Portsmouth'),
+    ('sheffield', 'Sheffield'),
+    ('southampton', 'Southampton'),
+    ('sunderland', 'Sunderland'),
+    ('swansea', 'Swansea'),
     ('reading', 'Reading'),
+    ('wolverhampton', 'Wolverhampton'),
+    ('york', 'York'),
 ]
+
+
 
 age_choices = [
     ('toddlers', 'Toddlers'),

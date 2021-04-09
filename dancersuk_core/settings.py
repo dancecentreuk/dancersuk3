@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'crispy_forms',
-    'django.contrib.humanize'
+    'django.contrib.humanize',
+
 ]
 
 AUTH_USER_MODEL = 'users.Account'
