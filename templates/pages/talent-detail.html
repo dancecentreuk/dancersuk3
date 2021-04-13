@@ -67,9 +67,9 @@
 
                   <div class="card mb-3 bg-light border-0" >
                         <div class="row no-gutters">
+                        <div class="row">
                             <div class="col-md-4 p-4">
                                 <img src="{{ talent.dancers_image.url }}" class="card-img" alt="...">
-
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body bg-light">
@@ -86,12 +86,22 @@
 
                                     <div class="col-6">{{ talent.user.profile.get_location_display }}</div>
                                     </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                            <div class="col-md-12">
+                                <div class="card-body bg-light">
+
                                     <h5>Physical Attributes</h5>
-                                    <div class="row physical-attributes" >
-                                        <div class="col-6 text-dark text-right "  >Ethnicity :</div>
-                                    <div class="col-6">{{ talent.get_ethnicity_display }}</div>
-                                    </div>
-                                    <div class="row physical-attributes" >
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="row physical-attributes" >
+                                                <div class="col-6 text-dark text-right "  >Ethnicity :</div>
+                                                <div class="col-6">{{ talent.get_ethnicity_display }}</div>
+                                            </div>
+                                            <div class="row physical-attributes" >
                                         <div class="col-6 text-dark text-right "  >Skin Colour :</div>
                                     <div class="col-6">{{ talent.get_skin_display }}</div>
                                     </div>
@@ -107,7 +117,9 @@
                                         <div class="col-6 text-dark text-right">Dress Size:</div>
                                     <div class="col-6">{{ talent.get_dress_display }}</div>
                                     </div>
-                                    <div class="row physical-attributes">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row physical-attributes">
                                         <div class="col-6 text-dark text-right">Height :</div>
                                     <div class="col-6">{{ talent.get_height_display }}</div>
                                     </div>
@@ -128,8 +140,12 @@
                                     <div class="col-6">{{ talent.bust }}cm</div>
                                     </div>
 
+                                        </div>
+                                    </div>
 
-                                    <p class="card-text"><small class="text-muted">Last
+
+
+                                    <p class="card-text text-right mt-3"><small class="text-muted">Last
                                         updated {{ talent.created }} mins ago</small></p>
                                 </div>
                             </div>
@@ -143,7 +159,7 @@
 
                             <div class="col-md-12">
                                 <div class="card-body bg-light">
-                                    <h4 class="card-title">{{ talent.user.first_name | title }} {{ talent.user.last_name.last_name | title }}</h4>
+                                    <h4 class="card-title ">More on {{ talent.user.first_name | title }} {{ talent.user.last_name | title }}</h4>
 
                                     <hr>
                                     <h5 class="mt-2">Bio</h5>
@@ -153,7 +169,7 @@
                                     <h5>Credit</h5>
                                     <div class="col-12">{{ talent.credits }}</div>
                                     <div class="col-12">{{ talent.user.profile.get_location_display }}</div>
-                                    <p class="card-text"><small class="text-muted">Last
+                                    <p class="card-text text-right"><small class="text-muted">Last
                                         updated {{ talent.user.profile.updated }} mins ago</small></p>
                                 </div>
                             </div>
