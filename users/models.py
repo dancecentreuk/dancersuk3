@@ -5,7 +5,8 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from pages.choices import location_choices, gender_choices
+from pages.choices import location_choices, gender_choices, hair_color_choices, eye_color_choices, build_choices, \
+    primary_job_choices, cm_choices, kg_choices, ethnicity_choices, skin_choices, height_choices, dress_choices
 from PIL import Image
 from django.core.files.storage import default_storage
 from io import BytesIO
@@ -200,10 +201,62 @@ class CompanyProfile(models.Model):
 
 class DancersProfile(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE, related_name='dancers_profile')
+    location = models.CharField(max_length=100,
+                                blank=False,
+                                default='no-option',
+                                choices=location_choices)
     dancers_image = models.ImageField(upload_to='media/dancers_images', default='media/users/person_1.jpg')
     bio = RichTextField(blank=True)
     experience = RichTextField(blank=True)
     credits = RichTextField(blank=True)
+    primary_job = models.CharField(max_length=20,
+                                   blank=True,
+                                   default='0',
+                                   choices=primary_job_choices)
+    waist = models.IntegerField(blank=True,
+                                   default='0',
+                                   choices=cm_choices)
+    build = models.CharField(max_length=30,
+                             blank=True,
+                             null=True,
+                             choices=build_choices)
+    bust = models.IntegerField(blank=True,
+                             default='0',
+                             choices=cm_choices)
+    hip = models.IntegerField(blank=True,
+                               default='0',
+                               choices=cm_choices)
+    height = models.IntegerField(blank=True,
+                              default='0',
+                              choices=height_choices)
+    weight = models.IntegerField(blank=True,
+                              choices=kg_choices)
+    dress = models.CharField(max_length=20,
+                            blank=True,
+                            default='Not Applicable',
+                            choices=dress_choices)
+    # weight = models.IntegerField(choices=list(zip(range(10, 140), range(10, 140))), unique=True, blank=True, null=True)
+    hair = models.CharField(max_length=20,
+                            blank=True,
+                            default='no-option',
+                            choices=hair_color_choices)
+    eye = models.CharField(max_length=20,
+                           blank=True,
+                           default='no-option',
+                           choices=eye_color_choices)
+    ethnicity = models.CharField(max_length=30,
+                                 blank=True,
+                                 default='no-option',
+                                 choices=ethnicity_choices)
+
+    skin = models.CharField(max_length=30,
+                                 blank=True,
+                                 default='no-option',
+                                 choices=skin_choices)
+
+
+
+
     is_active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -215,6 +268,13 @@ class DancersProfile(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.user.first_name)
         super(DancersProfile, self).save(*args, **kwargs)
+
+    def calculate_feet(self):
+        if self.height is None:
+            pass
+        else:
+            return self.height * 0.03281
+
 
 class DancerImage(models.Model):
     title = models.CharField(max_length=100)

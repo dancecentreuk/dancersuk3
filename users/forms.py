@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ChoiceField, DateInput
 
-from pages.choices import account_type_choice, location_choices, gender_choices
+from pages.choices import account_type_choice, location_choices, gender_choices, kg_choices, ethnicity_choices
 from .models import Account, Profile, DancersProfile, CompanyProfile, DancerImage
 
 
@@ -77,12 +77,22 @@ class UserUpdateForm(forms.ModelForm):
 
 class DancersUpdateForm(forms.ModelForm):
 
+    weight = forms.CharField(label='Weight',
+                               widget=forms.Select(choices=kg_choices,
+                                                   attrs={'class': 'form-control mb-3', 'label': 'Your Weight',
+                                                          }
+                                                   )
+                               )
+
     class Meta:
         model = DancersProfile
-        fields = [ 'bio', 'experience', 'dancers_image', 'credits']
+        fields = [ 'dancers_image', 'primary_job',  'bio', 'experience',  'credits', 'height',  'build',
+                   'dress', 'waist', 'hip', 'bust', 'weight', 'hair', 'eye', 'ethnicity', 'skin']
 
         widgets = {
         }
+
+
 
 
 class CompanyUpdateForm(forms.ModelForm):

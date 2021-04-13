@@ -90,10 +90,10 @@
 
                     {% if candidate.dancers_profile %}
 
-                        <div class="about-author d-flex p-4 bg-light mb-3">
-                            <div class="bio mr-5">
-                                <img src="{{ candidate.dancers_profile.dancers_image.url }}" style="width: 200px; "
-                                     alt="Image placeholder" class="img-fluid mb-4">
+                         <div class="card mb-3 bg-light border-0" style="max-width: 750px;">
+                        <div class="row no-gutters">
+                            <div class="col-md-4 p-4">
+                                <img src="{{ candidate.dancers_profile.dancers_image.url }}" class="card-img" alt="...">
                                 <button type="button" class="btn btn-outline-secondary btn-sm btn-block mt-3"
                                         data-toggle="modal" data-target="#dancersProfileModal">Update Dancer's Profile
                                     <i type="button" style="font-size: 15px;" class="ml-2 text-danger fas fa-pen"
@@ -101,9 +101,70 @@
                                 </button>
                                 <a href="{% url 'users:delete-dancers-profile' candidate.dancers_profile.pk %}" class="btn btn-outline-danger btn-sm btn-block mt-3">Delete Dancer Profile </a>
                             </div>
+                            <div class="col-md-8">
+                                <div class="card-body bg-light">
+                                    <h4 class="card-title">{{ candidate.first_name | title }} {{ candidate.last_name | title }} </h4>
+                                    <h5>Physical Attributes</h5>
+                                    <div class="row physical-attributes" >
+                                        <div class="col-6 text-dark text-right "  >Ethnicity :</div>
+                                    <div class="col-6">{{ candidate.dancers_profile.get_ethnicity_display }}</div>
+                                    </div>
+                                    <div class="row physical-attributes" >
+                                        <div class="col-6 text-dark text-right "  >Skin Colour :</div>
+                                    <div class="col-6">{{ candidate.dancers_profile.get_skin_display }}</div>
+                                    </div>
+                                    <div class="row physical-attributes">
+                                        <div class="col-6 text-dark text-right">Eye Colour :</div>
+                                    <div class="col-6">{{ candidate.dancers_profile.get_eye_display }}</div>
+                                    </div>
+                                    <div class="row physical-attributes">
+                                        <div class="col-6 text-dark text-right">Hair Colour :</div>
+                                    <div class="col-6">{{ candidate.dancers_profile.get_hair_display }}</div>
+                                    </div>
+                                    <div class="row physical-attributes">
+                                        <div class="col-6 text-dark text-right">Dress Size:</div>
+                                    <div class="col-6">{{ candidate.dancers_profile.get_dress_display }}</div>
+                                    </div>
+                                    <div class="row physical-attributes">
+                                        <div class="col-6 text-dark text-right">Height :</div>
+                                    <div class="col-6">{{ candidate.dancers_profile.get_height_display }}</div>
+                                    </div>
+                                    <div class="row physical-attributes">
+                                        <div class="col-6 text-dark text-right">Weight :</div>
+                                    <div class="col-6">{{ candidate.dancers_profile.weight }}kg</div>
+                                    </div>
+                                    <div class="row physical-attributes">
+                                        <div class="col-6 text-dark text-right">Waist :</div>
+                                    <div class="col-6">{{ candidate.dancers_profile.waist }}cm</div>
+                                    </div>
+                                    <div class="row physical-attributes">
+                                        <div class="col-6 text-dark text-right">Hips :</div>
+                                    <div class="col-6">{{ candidate.dancers_profile.hip }}cm</div>
+                                    </div>
+                                    <div class="row physical-attributes">
+                                        <div class="col-6 text-dark text-right">Chest :</div>
+                                    <div class="col-6">{{ candidate.dancers_profile.bust }}cm</div>
+                                    </div>
+
+
+                                    <p class="card-text"><small class="text-muted">Last
+                                        updated {{ candidate.profile.created }} mins ago</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                        <div class="about-author d-flex p-4 bg-light mb-3">
+
+
                             <div class="desc">
                                 <h3>Dancers Profile</h3>
-                                <h5>{{ candidate.first_name | title }} {{ candidate.last_name | title }}</h5>
+
 
                                 <h5>Bio</h5>
                                 <div class="col-12">{{ candidate.dancers_profile.bio }}</div>
@@ -115,6 +176,7 @@
 
                                 <p></p>
                             </div>
+
                         </div>
 
 
