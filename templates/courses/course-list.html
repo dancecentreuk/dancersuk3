@@ -37,7 +37,7 @@
 				              					<div class="select-wrap">
 						                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
 						                      <select name="style" id="" class="form-control">
-                                                  <option value="" selected="true">Dance Style</option>
+                                                  <option value="" selected="true">Style</option>
                                                   {% for style in styles %}
                                                       <option value="{{ style.id }}">{{ style.name }}</option>
                                                   {% endfor %}
@@ -52,7 +52,7 @@
                                                 <div class="select-wrap">
                                               <div class="icon"><span class="ion-ios-arrow-down"></span></div>
                                               <select name="age_group" id="" class="form-control">
-                                                  <option selected="true" disabled="disabled">Age Group</option>
+                                                  <option selected="true" disabled="disabled">Age</option>
                                                   {% for key, value in age_choices %}
                                                     <option value="{{ key }}">{{ value }}</option>
                                                   {% endfor %}
@@ -68,7 +68,7 @@
 				              					<div class="select-wrap">
 						                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
 						                      <select name="course_level" id="" class="form-control">
-                                                  <option value="" selected="true">Choose Level</option>
+                                                  <option value="" selected="true">Level</option>
                                                   {% for level in levels %}
                                                       <option value="{{ level.id }}">{{ level.title }}</option>
                                                   {% endfor %}
