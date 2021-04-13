@@ -24,11 +24,10 @@
                                 <div class="nav nav-pills text-center" id="v-pills-tab" role="tablist"
                                      aria-orientation="vertical">
                                     <a class="nav-link active mr-sm-1" id="v-pills-1-tab" data-toggle="pill"
-                                       href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Find
-                                        a Dance Class</a>
+                                       href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Dance Class</a>
 
                                     <a class="nav-link mr-md-1" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2"
-                                       role="tab" aria-controls="v-pills-2" aria-selected="false">Find a Specific Date Job</a>
+                                       role="tab" aria-controls="v-pills-2" aria-selected="false">Specific Date Job</a>
 
 
 
@@ -123,7 +122,7 @@
 			              				<div class="form-group">
 				              				<div class="form-field">
 				              					<div class="icon"><span class="icon-briefcase"></span></div>
-								                <input type="text" class="form-control" name="job_title" placeholder="eg. london, musical">
+								                <input type="text" class="form-control" name="job_title" placeholder="eg musical">
 								              </div>
 							              </div>
 			              			</div>
@@ -134,7 +133,7 @@
 				              					<div class="select-wrap">
 						                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
 						                      <select name="job_type" id="" class="form-control">
-                                                  <option value="" selected="true">Choose Category</option>
+                                                  <option value="" selected="true">Category</option>
                                                   {% for category in job_categories %}
                                                       <option value="{{ category.id }}">{{ category.title }}</option>
                                                   {% endfor %}
@@ -297,7 +296,7 @@
                                 <div class="job-post-item-body d-block d-md-flex">
                                     <div class="mr-3"><span class="icon-layers"></span> <a href="{% url 'pages:profile-info' course.author.id course.author.first_name %}">{{ course.author.first_name }}</a>
                                     </div>
-                                    <div class="mr-3"><span class="icon-layers"></span> <span>{{ course.dance_style }}, UK</span>
+                                    <div class="mr-3"><span class="icon-layers"></span> <span>{{ course.dance_style }}</span>
                                     </div>
                                     <div class="mr-3"><span class="icon-my_location"></span>
                                         <span>{{ course.course_level }} Level</span></div>
