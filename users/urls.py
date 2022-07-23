@@ -15,7 +15,11 @@ urlpatterns = [
     path('create_company_profile/', CreateCompanyProfileView.as_view(), name='create-company-profile'),
     path('delete-company-profile/<int:pk>/', DeleteCompanyProfile.as_view(), name='delete-company-profile'),
     path('delete-photo/<int:pk>/', delete_dancer_photo, name='delete-dancers-photo'),
-    path('activate/<uidb64>/<token>', VerificationView.as_view(), name='activate')
+    path('activate/<uidb64>/<token>', VerificationView.as_view(), name='activate'),
+    path('add-membership/', join, name='add-membership'),
+    path('checkout/', checkout, name='checkout'),
+    path('membership/settings/', membership_settings, name='membership-settings'),
+    path('membership/updateaccounts/', updateaccounts, name='update-accounts')
 
 
 ]

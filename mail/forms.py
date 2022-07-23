@@ -10,6 +10,12 @@ class CreateCommunicationForm(forms.ModelForm):
         model = Communication
         fields = ['content']
 
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'description-input', 'placeholder': 'write message'}),
+
+
+        }
+
     def __init__(self, *args, **kwargs):
         super(CreateCommunicationForm, self).__init__(*args, **kwargs)
         self.fields['content'].label = "Message"

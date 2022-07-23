@@ -6,7 +6,7 @@ from django.template.defaultfilters import slugify
 # Create your models here.
 
 class Category(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=250)
     slug = models.SlugField(default=None, editable=False)
 
     def __str__(self):
@@ -17,13 +17,13 @@ class Category(models.Model):
         super(Category, self).save(*args, **kwargs)
 
     def categories_count(self):
-        return self.categories.all().count()+500
+        return self.categories.all().count()
 
     def categories_count_listings(self):
-        return self.categories.filter(is_posting=True).count()+500
+        return self.categories.filter(is_posting=True).count()
 
     def categories_count_postings(self):
-        return self.categories.filter(is_posting=False).count()+500
+        return self.categories.filter(is_posting=False).count()
 
 
 
@@ -41,7 +41,7 @@ class Listing(models.Model):
     start_time = models.CharField(null=True, blank=True, max_length=10)
     end_time = models.CharField(null=True, blank=True, max_length=10)
 
-    rehearsal_date = models.CharField(max_length=250, blank=True)
+    rehearsal_date = models.CharField(max_length=250, blank=True, null=True)
     fee = models.CharField(max_length=200)
     publish_date = models.DateTimeField(auto_now_add=True)
     is_posting = models.BooleanField(default=True)

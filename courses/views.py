@@ -15,7 +15,20 @@ from django.db.models import Avg
 
 
 
+class CoursesView2(ListView):
+    model = WeeklyDanceClass
+    template_name = 'courses/course-list2.html'
+    paginate_by = 15
+    context_object_name = 'courses'
 
+    def get_context_data(self, **kwargs):
+        context = super(CoursesView2, self).get_context_data(**kwargs)
+        context['styles'] = DanceStyle.objects.all()
+        context['levels'] = Level.objects.all()
+        context['age_choices'] = age_choices
+        context['location_choices'] = location_choices
+        context['all_dance_courses'] = WeeklyDanceClass.objects.filter(is_allowed=True).count()
+        return context
 
 
 
@@ -26,7 +39,7 @@ from django.db.models import Avg
 class CoursesView(ListView):
     model = WeeklyDanceClass
     template_name = 'courses/course-list.html'
-    paginate_by = 10
+    paginate_by = 5
     context_object_name = 'courses'
 
     def get_context_data(self, **kwargs):

@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    {% if messages %}
+     {% for message in messages %}
+         <div class="text-center alert alert-{{ message.tags }}">
+             {{ message|safe }}
+         </div>
+     {% endfor %}
+ {% endif %}
+
+
+
+    <!-- Introduction-->
+    <section class="course-intro" id="coursehome">
+        <h1 class="section__title section__title--course">
+            Ballroom <span class="alt-strong"> Dance Adventure dasdasdasdadasdx</span>
+        </h1>
+        <p class="section__subtitle section__subtitle--course-intro">dancersuk.co.uk</p>
+        <img src="img/dance-manchester.jpg" class="course-intro__img" alt="a picture of jane smiling">
+        <button class="btn btn__message-profile">MESSAGE TOM</button>
+
+    </section>
+
+
+
+
+
+   <section class="section__container">
+    <div class="dancers__profiles">
+        <div class="profile-space">
+            <h2 class="section__title--dancers underline">Talent</h2>
+        </div>
+
+
+        <div class="dancers-home dancers">
+
+            <!--porfolio item 1 -->
+            <div class="dancer__holder">
+                <div class="dancer__img-container">
+                    <a href="#" class="dancer__item">
+                        <img src="img/portfolio-01.jpg" alt="" class="portfolio__img">
+                    </a>
+                </div>
+                <div class="dancer-name">
+                    <a href="">John Thomas</a>
+                </div>
+            </div>
+
+            <!--porfolio item 1 -->
+            <div class="dancer__holder">
+                <div class="dancer__img-container">
+                    <a href="#" class="dancer__item">
+                        <img src="img/portfolio-01.jpg" alt="" class="portfolio__img">
+                    </a>
+                </div>
+                <div class="dancer-name">
+                    <a href="">John Thomas</a>
+                </div>
+            </div>
+            <!--porfolio item 1 -->
+            <div class="dancer__holder">
+                <div class="dancer__img-container">
+                    <a href="#" class="dancer__item">
+                        <img src="img/portfolio-01.jpg" alt="" class="portfolio__img">
+                    </a>
+                </div>
+                <div class="dancer-name">
+                    <a href="">John Thomas</a>
+                </div>
+            </div>
+            <!--porfolio item 1 -->
+            <div class="dancer__holder">
+                <div class="dancer__img-container">
+                    <a href="#" class="dancer__item">
+                        <img src="img/portfolio-01.jpg" alt="" class="portfolio__img">
+                    </a>
+                </div>
+                <div class="dancer-name">
+                    <a href="">John Thomas</a>
+                </div>
+            </div>
+            <!--porfolio item 1 -->
+            <div class="dancer__holder">
+                <div class="dancer__img-container">
+                    <a href="#" class="dancer__item">
+                        <img src="img/portfolio-01.jpg" alt="" class="portfolio__img">
+                    </a>
+                </div>
+                <div class="dancer-name">
+                    <a href="">John Thomas</a>
+                </div>
+            </div>
+            <!--porfolio item 1 -->
+            <div class="dancer__holder">
+                <div class="dancer__img-container">
+                    <a href="#" class="dancer__item">
+                        <img src="img/portfolio-01.jpg" alt="" class="portfolio__img">
+                    </a>
+                </div>
+                <div class="dancer-name">
+                    <a href="">John Thomas</a>
+                </div>
+            </div>
+            <!--porfolio item 1 -->
+            <div class="dancer__holder">
+                <div class="dancer__img-container">
+                    <a href="#" class="dancer__item">
+                        <img src="img/portfolio-01.jpg" alt="" class="portfolio__img">
+                    </a>
+                </div>
+                <div class="dancer-name">
+                    <a href="">John Thomas</a>
+                </div>
+            </div>
+            <!--porfolio item 1 -->
+            <div class="dancer__holder">
+                <div class="dancer__img-container">
+                    <a href="#" class="dancer__item">
+                        <img src="img/portfolio-01.jpg" alt="" class="portfolio__img">
+                    </a>
+                </div>
+                <div class="dancer-name">
+                    <a href="">John Thomas</a>
+                </div>
+            </div>
+            <!--porfolio item 1 -->
+            <div class="dancer__holder">
+                <div class="dancer__img-container">
+                    <a href="#" class="dancer__item">
+                        <img src="img/portfolio-01.jpg" alt="" class="portfolio__img">
+                    </a>
+                </div>
+                <div class="dancer-name">
+                    <a href="">John Thomas</a>
+                </div>
+            </div>
+            <!--porfolio item 1 -->
+            <div class="dancer__holder">
+                <div class="dancer__img-container">
+                    <a href="#" class="dancer__item">
+                        <img src="img/portfolio-01.jpg" alt="" class="portfolio__img">
+                    </a>
+                </div>
+                <div class="dancer-name">
+                    <a href="">John Thomas</a>
+                </div>
+            </div>
+            <!--porfolio item 1 -->
+            <div class="dancer__holder">
+                <div class="dancer__img-container">
+                    <a href="#" class="dancer__item">
+                        <img src="img/portfolio-01.jpg" alt="" class="portfolio__img">
+                    </a>
+                </div>
+                <div class="dancer-name">
+                    <a href="">John Thomas</a>
+                </div>
+            </div>
+
+
+
+    </div>
+
+    <div class="pagination">
+        <a href="#" class="prev"><i class="fas fa-angle-left"></i></a>
+        <a href="#" class="num active">1</a>
+        <a href="#" class="num">2</a>
+        <a href="#" class="num">3</a>
+        <a href="#" class="num">4</a>
+        <a href="#" class="next"><i class="fas fa-angle-right"></i></a>
+    </div>
+   </section>
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

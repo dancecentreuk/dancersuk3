@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 
-from .models import Profile, DancersProfile, Account, CompanyProfile, DancerImage
+from .models import Profile, DancersProfile, Account, CompanyProfile, DancerImage, Customer
 from jobs.models import Listing
 from courses.models import WeeklyDanceClass
 from blog.models import BlogPost
@@ -18,13 +18,29 @@ from venues.models import Venue
 from pages.choices import location_choices, gender_choices
 
 from .forms import AccountRegisterForm, UserUpdateForm, DancersUpdateForm, CompanyUpdateForm, AccountProfileForm, \
-    DancerImageForm
+    DancerImageForm, LoginForm
 
 from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from .utils import token_generator
 import threading
+import stripe
+
+stripe.api_key = 'sk_test_4SwxpHJtv716lWZgdM1gfSce'
+
+
+def updateaccounts(request):
+    customers = Customer.objects.all()
+    for customer in customers:
+        subscription = stripe.Subscription.retrieve(customer.stripe_subscription_id)
+        if subscription.status != 'active':
+            customer.membership = False
+        else:
+            customer.membership = True
+        customer.cancel_at_period_end = subscription.cancel_at_period_end
+        customer.save()
+        return HttpResponse('completed')
 
 
 class EmailThread(threading.Thread):
@@ -96,7 +112,7 @@ class EmailThread(threading.Thread):
 
 
 class UserRegisterView(SuccessMessageMixin, CreateView):
-    template_name = 'users/register-user2.html'
+    template_name = 'users/user-register2.html'
     form_class = AccountRegisterForm
     success_url = '/'
     success_message = 'Your User account has been created'
@@ -171,6 +187,7 @@ class VerificationView(View):
 
 class UserLoginView(LoginView):
     template_name = 'users/login.html'
+    form_class = LoginForm
 
 
 class UserLogoutView(LogoutView):
@@ -197,8 +214,11 @@ class ProfileView(UpdateView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         user_id = get_object_or_404(Profile, user_id=self.object.pk)
+        print(user_id)
+        print('ffs')
         context['users_form'] = self.form_class_2(instance=user_id)
-        context['listings'] = Listing.objects.filter(author=self.object.pk)
+        context['listings'] = Listing.objects.filter(author=self.object.pk).filter(is_posting=True)
+        context['postings'] = Listing.objects.filter(author=self.object.pk).filter(is_posting=False)
         context['blogs'] = BlogPost.objects.filter(featured=True)
         context['courses'] = WeeklyDanceClass.objects.filter(author=self.object.pk)
         context['venues'] = Venue.objects.filter(author=self.object.pk)
@@ -210,8 +230,10 @@ class ProfileView(UpdateView):
         if self.request.user.has_company_profile():
             company_id = get_object_or_404(CompanyProfile, user_id=self.object.pk)
             context['company_form'] = self.form_class_3(instance=company_id)
-
-
+        if self.request.user.has_customer_membership():
+            customer = get_object_or_404(Customer, user_id=self.object.pk)
+            context['membership_status'] = customer
+            print(customer.membership)
         return context
 
     # def dispatch(self, request, *args, **kwargs):
@@ -221,7 +243,8 @@ class ProfileView(UpdateView):
     #         pass
     #     return super().dispatch(request, *args, **kwargs)
 
-    def form_valid(self, form):
+    def post(self, *args, **kwargs):
+        self.object = self.get_object()
         if 'dancerscope' in self.request.POST:
             form = DancersUpdateForm(self.request.POST, self.request.FILES, instance=self.object.dancers_profile)
             if form.is_valid():
@@ -229,7 +252,7 @@ class ProfileView(UpdateView):
                 messages.add_message(self.request, messages.SUCCESS, ': You have successfully update your dancers info !')
                 return super(ProfileView, self).form_valid(form)
         elif 'companycope' in self.request.POST:
-            form = CompanyUpdateForm(self.request.POST, self.request.FILES, instance=self.object.company_profile)
+            form = CompanyUpdateForm(self.request.POST, self.request.FILES,  instance=self.object.company_profile)
             if form.is_valid():
                 form.save()
                 messages.add_message(self.request, messages.SUCCESS, 'You have succesfully update your company info !')
@@ -242,12 +265,44 @@ class ProfileView(UpdateView):
                 data.save()
                 messages.add_message(self.request, messages.SUCCESS, 'You have succesfully added am image')
                 return super(ProfileView, self).form_valid(form)
+
         else:
             form = UserUpdateForm(self.request.POST, self.request.FILES, instance=self.object.profile)
             if form.is_valid():
                 form.save()
-                messages.add_message(self.request, messages.SUCCESS, 'You have succesfully update your Profile info !')
+                messages.add_message(self.request, messages.SUCCESS,': You have successfully update your dancers info !')
                 return super(ProfileView, self).form_valid(form)
+
+    # def form_valid(self, form):
+    #     if 'dancerscope' in self.request.POST:
+    #         form = DancersUpdateForm(self.request.POST, self.request.FILES, instance=self.object.dancers_profile)
+    #         if form.is_valid():
+    #             form.save()
+    #             messages.add_message(self.request, messages.SUCCESS, ': You have successfully update your dancers info !')
+    #             return super(ProfileView, self).form_valid(form)
+    #     elif 'companycope' in self.request.POST:
+    #         form = CompanyUpdateForm(self.request.POST, self.request.FILES,  instance=self.object.company_profile)
+    #         if form.is_valid():
+    #             form.save()
+    #             messages.add_message(self.request, messages.SUCCESS, 'You have succesfully update your company info !')
+    #             return super(ProfileView, self).form_valid(form)
+    #     elif 'dancerImage' in self.request.POST:
+    #         form = DancerImageForm(self.request.POST, self.request.FILES)
+    #         if form.is_valid():
+    #             data = form.save(commit=False)
+    #             data.owner = self.object.dancers_profile
+    #             data.save()
+    #             messages.add_message(self.request, messages.SUCCESS, 'You have succesfully added am image')
+    #             return super(ProfileView, self).form_valid(form)
+    #
+    #     else:
+    #         form = UserUpdateForm(self.request.POST, self.request.FILES, instance=self.object.profile)
+    #         if form.is_valid():
+    #             form.save()
+    #             messages.add_message(self.request, messages.SUCCESS,': You have successfully update your dancers info !')
+    #             return super(ProfileView, self).form_valid(form)
+
+
 
     def get_success_url(self):
         success_id = self.get_object()
@@ -475,3 +530,122 @@ def delete_dancer_photo(request, pk):
     else:
         messages.error(request, 'Error: not your photo to delete')
         return redirect('/')
+
+
+
+
+
+def join(request):
+
+    context = {
+
+    }
+    return render(request, 'users/join.html', context)
+
+
+
+
+
+@login_required(login_url='/users/login/')
+def checkout(request):
+
+
+
+    try:
+        if request.user.customer_membership:
+            return redirect('users:profile', request.user.id)
+    except Customer.DoesNotExist:
+        pass
+
+    coupons = {'halloween': 50, 'myteacher': 80, 'poop':99 }
+    if request.method == 'POST':
+        stripe_customer = stripe.Customer.create(email=request.user.email, source=request.POST['stripeToken'])
+        plan = 'price_1Isoe6HmHzDvppFlXRVRfjQJ'
+        if request.POST['coupon'] in coupons:
+            percentage = coupons[request.POST['coupon'].lower()]
+            try:
+                coupon = stripe.Coupon.create(duration='once', id=request.POST['coupon'].lower(),
+                                              percent_off=percentage)
+            except:
+                pass
+            subscription = stripe.Subscription.create(customer=stripe_customer.id,
+                                                      items=[{'plan': plan}], coupon=request.POST['coupon'].lower())
+        else:
+            subscription = stripe.Subscription.create(customer=stripe_customer.id,
+                                                      items=[{'plan': plan}])
+
+        customer = Customer()
+        customer.user = request.user
+        customer.stripeid = stripe_customer.stripe_id
+        customer.membership = True
+        customer.cancel_at_period_end = False
+        customer.stripe_subscription_id = subscription.stripe_id
+        customer.save()
+
+
+        return redirect('users:profile', request.user.id )
+    else:
+        coupon = 'none'
+        price = 500
+        og_dollar = 5
+        coupon_dollar = 0
+        final_dollar = 5
+
+        if request.method == 'GET' and 'coupon' in request.GET:
+            print(coupons)
+            if request.GET['coupon'].lower() in coupons:
+                print('fam')
+                coupon = request.GET['coupon'].lower()
+                percentage = coupons[request.GET['coupon'].lower()]
+
+                coupon_price = int((percentage / 100) * price)
+                price = price - coupon_price
+                coupon_dollar = str(coupon_price)[:-2] + '.' + str(coupon_price)[-2:]
+                final_dollar = str(price)[:-2] + '.' + str(price)[-2:]
+
+
+        context = {
+            'coupon': coupon,
+            'price': price,
+            'og_dollar': og_dollar,
+            'coupon_dollar': coupon_dollar,
+            'final_dollar': final_dollar
+        }
+        return render(request, 'users/checkout.html', context)
+
+
+def membership_settings(request):
+    membership = False
+    cancel_at_period_end = False
+    if request.method == 'POST':
+        subscription = stripe.Subscription.retrieve(request.user.customer_membership.stripe_subscription_id)
+        subscription.cancel_at_period_end = True
+        request.user.customer_membership.cancel_at_period_end = True
+        cancel_at_period_end = True
+        subscription.save()
+        request.user.customer_membership.save()
+        print(subscription)
+        pass
+    else:
+        try:
+            if request.user.customer_membership.membership:
+                membership = True
+            if request.user.customer_membership.cancel_at_period_end:
+                cancel_at_period_end = True
+        except Customer.DoesNotExist:
+            membership = False
+
+
+
+
+
+    context = {
+        'membership':membership,
+        'cancel_at_period_end': cancel_at_period_end
+    }
+    return render(request, 'users/membership-settings.html', context)
+
+
+
+
+

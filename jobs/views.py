@@ -14,6 +14,7 @@ from pages.choices import location_choices
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponseRedirect
 from users.models import  Account
+import datetime
 
 
 # Create your views here.
@@ -33,6 +34,7 @@ class ListingView(ListView):
         context = super(ListingView, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['location_choices'] = location_choices
+        context['listing_count'] = Listing.objects.filter(is_posting=True).count()
         return context
 
 
@@ -46,13 +48,22 @@ class CreateListingView(SuccessMessageMixin, CreateView):
     form_class = CreateListingForm
     success_url = '/'
     success_message = 'Your job has been successfully created'
-    
+
+
     
     def form_valid(self, form):
+        print('form')
         listing = form.save(commit=False)
         listing.author = self.request.user
         listing.save()
         return super(CreateListingView, self).form_valid(form)
+
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(CreateListingView, self).get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        context['location_choices'] = location_choices
+        return context
 
     def get_success_url(self):
         return reverse('jobs:single-listing',  kwargs={'slug': self.object.slug, 'pk': self.object.id})
@@ -141,7 +152,10 @@ def search(request):
     paged_listings = paginator.get_page(page)
 
 
+
+
     context = {
+
         'listings': paged_listings,
         'categories':Category.objects.all().order_by('title'),
         'location_choices':location_choices,
@@ -154,7 +168,19 @@ def search(request):
 
 def searchPosting(request):
 
-    queryset_list = Listing.objects.filter(is_posting=False)
+
+    today = datetime.date.today()
+
+    queryset_list = Listing.objects.filter(is_posting=False).filter(date__gte=today).order_by('date')
+
+
+
+    if 'date_start' and 'date_end' in request.GET:
+        date_start = request.GET['date_start']
+        date_end = request.GET['date_end']
+        if date_start and date_end :
+            queryset_list = queryset_list.filter(date__gte=date_start).filter(date__lte=date_end)
+        
 
 
     if 'job_title' in request.GET:
@@ -203,7 +229,7 @@ class UpdateListingView(SuccessMessageMixin, UpdateView):
         self.object = self.get_object()
         if self.object.author != self.request.user:
             messages.add_message(self.request, messages.WARNING, 'Cheeky not your message to update !!!')
-            return HttpResponseRedirect('/jobs/')
+            return HttpResponseRedirect('/jobs/listings/')
         return super(UpdateListingView, self).get(request, *args, **kwargs)
 
     def get_success_url(self):
@@ -240,18 +266,24 @@ class PostingView(ListView):
     template_name = 'jobs/postings.html'
     model = Listing
     context_object_name = 'listings'
-    paginate_by = 10
+    paginate_by = 15
 
     def get_queryset(self):
-        queryset = Listing.objects.filter(is_posting=False).order_by('date')
+        today = datetime.date.today()
+        queryset = Listing.objects.filter(is_posting=False).filter(date__gte=today).order_by('date')
         return queryset
 
 
     def get_context_data(self, *args, **kwargs):
         context = super(PostingView, self).get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
+        # context['categories'] = Category.objects.all().filter(categories__is_posting=True)
         context['location_choices'] = location_choices
+        context['categories'] = Category.objects.all()
+
         return context
+
+
+
 
 
 @method_decorator(login_required(login_url='/'), name='dispatch')
@@ -291,7 +323,7 @@ class UpdatePostingView(SuccessMessageMixin, UpdateView):
         return super(UpdatePostingView, self).get(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('jobs:single-listing', kwargs={'pk': self.object.pk, 'slug': self.object.slug})
+        return reverse('jobs:single-posting', kwargs={'pk': self.object.pk, 'slug': self.object.slug})
 
 
 class SinglePostingView(DetailView):
@@ -344,7 +376,7 @@ class CategoryPostingsView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(CategoryPostingsView, self).get_context_data(*args, **kwargs)
         self.category = get_object_or_404(Category, pk=self.kwargs['pk'])
-        context['categories'] = Category.objects.all()
+        context['categories'] = Category.objects.all().filter(categories__is_posting=False)
         context['category'] = self.category
         return context
 

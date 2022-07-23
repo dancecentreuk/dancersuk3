@@ -2,6 +2,165 @@
 {% load static %}
 
 {% block content %}
+
+
+
+
+
+
+
+
+
+
+      <!-- Introduction-->
+    <section class="intro" id="home">
+        <h1 class="section__title section__title--intro">
+            Find A <strong> Dance Venue </strong>
+        </h1>
+        <p class="section__subtitle section__subtitle--intro">
+            {% if conversation.messenger_1 == request.user %}
+                {{ conversation.messenger_2.first_name }}
+            {% else %}
+                {{ conversation.messenger_1.first_name }}
+            {% endif %}
+        </p>
+        {% if conversation.messenger_1 == request.user %}
+            <img src="{{ conversation.messenger_2.profile.profile_image.url }}" class="intro__img" alt="">
+        {% else %}
+            <img src="{{ conversation.messenger_1.profile.profile_image.url }}" class="intro__img" alt="">
+        {% endif %}
+        <div>
+            <button class="btn btn__message-profile" data-modal-target="modal1">Reply</button>
+        <button class="btn btn__message-profile">Delete</button>
+        </div>
+
+
+    </section>
+
+
+
+
+
+
+
+
+    <!--end courses-->
+
+
+    <section class="section__container mail-container">
+
+
+        <h1 class="section__title section__title--courses">Dance <span>Venues</span> </h1>
+
+
+        <div class="mail-box__heading">
+            <div class="mail-icon"><i class="fa fa-envelope" aria-hidden="true"></i></div>
+            <div class="mail-title">MEssage</div>
+        </div>
+
+
+
+
+
+
+
+
+    {% for m in all_convo %}
+
+
+
+
+            <div {% if request.user == m.sender %} class="mail-box"{% else %} class="mail-box float-mail" {% endif %}>
+                <div class="mail-profile">
+                  <img class="mail-image" src="{{ m.sender.profile.profile_image.url }}" alt="">
+                  <div{% if request.user == m.sender %}    class="mail-date" {% else %} class="mail-date mail-date__white" {% endif %} >
+
+                    <p>{{ m.timestamp }} | {{ m.sender.first_name }}</p>
+                  </div>
+                </div>
+                <div class="mail-body">
+                  <p>
+                      {{ m.content }}
+                  </p>
+                </div>
+              </div>
+
+    {% endfor %}
+
+
+
+
+              <div class="mail-box float-mail">
+                <div class="mail-profile">
+                  <img class="mail-image" src="https://images.unsplash.com/photo-1648737965402-2b9c3f3eaa6f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="">
+                  <div class="mail-date mail-date__white">
+
+                    <p>july 7th 2020</p>
+                  </div>
+                </div>
+                <div class="mail-body">
+                  <p>
+                    Lorem ipsum dolor psum dolor sit amet consectetur psum dolor sit amet consectetur sit amet consectetur adipisicing elit. Sit commodi quis perspiciatis veritatis excepturi est
+                  </p>
+                </div>
+              </div>
+
+
+
+              <div class="mail-box">
+                <div class="mail-profile">
+                  <img class="mail-image" src="https://images.unsplash.com/photo-1648737965402-2b9c3f3eaa6f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="">
+                  <div class="mail-date">
+
+                    <p>july 7th 2020</p>
+                  </div>
+                </div>
+                <div class="mail-body">
+                  <p>
+                    Lorem ipsum dolor psum dolor sit amet consectetur psum dolor sit amet consectetur sit amet consectetur adipisicing elit. Sit commodi quis perspiciatis veritatis excepturi est
+                  </p>
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/ballet_bg_4.jpg' %}');" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
@@ -120,6 +279,46 @@
 		</section>
 
 
+    <section>
+    <form action="" method="POST">
+                                        {% csrf_token %}
+										<div class="modal-body">
+											<div class="form-group">
+                                            <label for="recipient">To : {% if request.user == conversation.messenger_1 %}
+                                                        {{ conversation.messenger_2.first_name | title}}
+                                                    {% else %}
+                                                        {{ conversation.messenger_1.first_name | title}}
+                                                    {% endif %} </label>
+												<input  name="recipient" type="hidden" class="form-control" placeholder="{% if request.user == conversation.messenger_1 %}
+                                                        {{ conversation.messenger_2.id}}
+                                                    {% else %}
+                                                        {{ conversation.messenger_1.id}}
+                                                    {% endif %}" value="{% if request.user == conversation.messenger_1 %}
+                                                        {{ conversation.messenger_2.id }}
+                                                    {% else %}
+                                                        {{ conversation.messenger_1.id }}
+                                                    {% endif %}">
+											</div>
+											<div class="form-group">
+												<input name="sender" type="hidden" class="form-control" placeholder="From : {{ request.user }}" value="{{ request.user }}">
+											</div>
+											<div class="form-group">
+												<input name="conversation" type="hidden" class="form-control" placeholder="conversation {{ conversation }}" value="{{ conversation }}">
+											</div>
+
+											<div class="form-group">
+												<textarea rows="8"  name="content" id="email_message" class="form-control" placeholder="Message"></textarea>
+											</div>
+
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Discard</button>
+											<button type="submit" class="btn btn-primary pull-right"><i class="fa fa-envelope"></i> Send Message</button>
+										</div>
+									</form>
+    </section>
+
+
     <!-- END INBOX CONTENT -->
 
 					<!-- BEGIN COMPOSE MESSAGE -->
@@ -174,6 +373,60 @@
 {#					<!-- END COMPOSE MESSAGE -->#}
 
 
+
+
+
+
+    <div class="modal" id="modal1"> <!-- This is the background overlay -->
+    <div class="modal-content modal-content__mail"> <!-- This is the actual modal/popup box -->
+      <span class="modal-close">&times;</span>
+      <h1>Update  Profile</h1>
+{#        <form action="" method="POST" enctype="multipart/form-data">#}
+{#            {% csrf_token %}#}
+{##}
+{#            <div class="modal-footer margin__2rem">#}
+{#                <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal">Close</button>#}
+{#                <button name="cope" type="submit" class="btn btn-sm btn-outline-primary">Save</button>#}
+{#            </div>#}
+{#        </form>#}
+        <form action="" method="POST">
+                                        {% csrf_token %}
+										<div class="modal-body">
+											<div class="form-group">
+                                            <label for="recipient">To : {% if request.user == conversation.messenger_1 %}
+                                                        {{ conversation.messenger_2.first_name | title}}
+                                                    {% else %}
+                                                        {{ conversation.messenger_1.first_name | title}}
+                                                    {% endif %} </label>
+												<input  name="recipient" type="hidden" class="form-control" placeholder="{% if request.user == conversation.messenger_1 %}
+                                                        {{ conversation.messenger_2.id}}
+                                                    {% else %}
+                                                        {{ conversation.messenger_1.id}}
+                                                    {% endif %}" value="{% if request.user == conversation.messenger_1 %}
+                                                        {{ conversation.messenger_2.id }}
+                                                    {% else %}
+                                                        {{ conversation.messenger_1.id }}
+                                                    {% endif %}">
+											</div>
+											<div class="form-group">
+												<input name="sender" type="hidden" class="form-control" placeholder="From : {{ request.user }}" value="{{ request.user }}">
+											</div>
+											<div class="form-group">
+												<input name="conversation" type="hidden" class="form-control" placeholder="conversation {{ conversation }}" value="{{ conversation }}">
+											</div>
+
+											<div class="form-group">
+												<textarea rows="8"  name="content" id="email_message" class="new-input__modal-textarea" placeholder="Message"></textarea>
+											</div>
+
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Discard</button>
+											<button type="submit" class="btn btn-primary pull-right"><i class="fa fa-envelope"></i> Send Message</button>
+										</div>
+									</form>
+    </div>
+  </div>
 
 
 

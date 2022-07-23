@@ -1,81 +1,147 @@
-	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-	    <div class="container">
-	      <a class="navbar-brand" href="{% url 'pages:home' %}">DancersUk</a>
-	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="oi oi-menu"></span> Menu
-	      </button>
+{% load static %}
+{#<header>#}
+{#    <div class="container scroll">#}
+{#        <nav>#}
+{#            <div class="menu-icons">#}
+{#                <i class="icon ion-md-menu"></i>#}
+{#                <i class="icon ion-md-close"></i>#}
+{#            </div>#}
+{#            <div class="logo">#}
+{#                <img src="img/devjane.png" alt="">#}
+{#            </div>#}
+{##}
+{#            <!-- <div class="brand">#}
+{#                <a href="#hero"><h1><span>Dancers</span>UK <span></span>     </h1></a>#}
+{#              </div> -->#}
+{#            <ul class="nav-list">#}
+{#                <li>#}
+{#                    <a href="{% url 'pages:home' %}">Home</a>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <a href="{% url 'courses:courses' %}">Classes</a>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <a href="#">Jobs#}
+{#                        <i class="icon ion-md-arrow-dropdown"></i>#}
+{#                    </a>#}
+{#                    <ul class="sub-menu">#}
+{#                        <li><a href="{% url 'jobs:jobs' %}">Jobs</a></li>#}
+{#                        <li><a href="{% url 'jobs:postings' %}">Specific Date Jobs</a></li>#}
+{#                    </ul>#}
+{#                </li>#}
+{#                <li>#}
+{##}
+{#                <li>#}
+{#                    <a href="{% url 'pages:talent' %}">Talent</a>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <a href="{% url 'venues:venues' %}">Venues</a>#}
+{#                </li>#}
+{#                {% if user.is_authenticated %}#}
+{#                    <li><button class="btn-account">{{ user.first_name | title }}</button>#}
+{##}
+{#                    <ul class="sub-menu2">#}
+{#                      <li><a href="{% url 'mail:inbox' %}">Messages</a></li>#}
+{#                      <li><a href="{% url 'jobs:create-listing' %}">Add Job</a></li>#}
+{#                      <li><a href="{% url 'jobs:create-posting' %}">Add Specific Date Job</a></li>#}
+{#                      <li><a href="{% url 'courses:create-course' %}">Add Class</a></li>#}
+{#                      <li><a href="{% url 'venues:add-venue' %}">Add Venue</a></li>#}
+{#                      <li><a href="{% url 'blog:create-blog' %}">Create Blog</a></li>#}
+{#                      <li><a href="{% url 'users:profile' user.pk  %}">Profile | Update</a></li>#}
+{#                      <li class="line" ><a href="{% url 'users:logout' %}">Logout</a></li>#}
+{##}
+{#                  </ul>#}
+{#                    </li>#}
+{#                {% else %}#}
+{#                    <li><a href="{% url 'users:login' %}" class="btn-primary">Login</a></li>#}
+{#                    <li><button class="btn-primary btn-info">Register</button>#}
+{#                {% endif %}#}
+{#            </ul>#}
+{#        </nav>#}
+{#    </div>#}
+{#</header>#}
 
-	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav ml-auto">
-	          <li
-              {% if ' ' in request.path %}
-                          class="nav-item active"
-                      {% else %}
-                          class="nav-item"
-                      {% endif %}><a href="{% url 'pages:home' %}" class="nav-link">Home</a></li>
-	          <li
-                  {% if 'courses' in request.path %}
-                      class="nav-item active"
-                  {% else %}
-                      class="nav-item"
-                  {% endif %}
-                      ><a href="{% url 'courses:courses' %}" class="nav-link">Classes</a></li>
-                <li class="btn-group" style="margin-top: 10px">
-                    <button type="button" class="btn btn-sadie-outline  dropdown-toggle nav-link-2" style="height: 35px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Jobs
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{% url 'jobs:jobs' %}">Jobs</a>
-                        <a class="dropdown-item" href="{% url 'jobs:postings' %}">Specific Date Jobs</a>
-                      </div>
+
+
+
+
+<header>
+    <div class="container scroll">
+        <nav>
+            <div class="menu-icons">
+                <i class="icon ion-md-menu"></i>
+                <i class="icon ion-md-close"></i>
+            </div>
+            <div class="logo">
+                <img src="img/devjane.png" alt="">
+            </div>
+
+            <!-- <div class="brand">
+                <a href="#hero"><h1><span>Dancers</span>UK <span></span>     </h1></a>
+              </div> -->
+            <ul class="nav-list">
+                <li>
+                    <a href="{% url 'pages:home' %}">Home</a>
                 </li>
-                <li
-                    {% if 'talent' in request.path %}
-                      class="nav-item active"
+                <li>
+                    <a href="{% url 'courses:courses' %}">Classes</a>
+                </li>
+                <li>
+                    <a href="{% url 'pages:talent' %}">Talent</a>
+                </li>
+                <li>
+                    <a href="#">Jobs
+                        <i class="icon ion-md-arrow-dropdown"></i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="{% url 'jobs:jobs' %}">Jobs</a></li>
+                        <li><a href="{% url 'jobs:postings' %}">Dated Jobs</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="{% url 'venues:venues' %}">Venues</a>
+                </li>
+
+            {% if request.user.is_authenticated %}
+                <li><button class="btn btn__account">
+                    {% if not user.first_name %}
+                        {{ user.email }}
                     {% else %}
-                      class="nav-item"
+                        {{ user.first_name | title }}
                     {% endif %}
-              ><a href="{% url 'pages:talent' %}" class="nav-link">Talent</a></li>
-	          <li
-                      {% if 'venues' in request.path %}
-                          class="nav-item active"
-                      {% else %}
-                          class="nav-item"
-                      {% endif %}><a href="{% url 'venues:venues' %}" class="nav-link">Venues</a></li>
-	          <li
-                      {% if 'blog' in request.path %}
-                          class="nav-item active"
-                      {% else %}
-                          class="nav-item"
-                      {% endif %}
-              ><a href="{% url 'blog:blog-listing' %}" class="nav-link">Blog</a></li>
-                {% if  user.is_authenticated %}<!-- Example single danger button -->
-                        <div class="btn-group" style="margin-top: 10px">
-                          <button type="button" class="btn btn-danger dropdown-toggle" style="height: 35px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              {{ user.first_name |title }}
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'mail:inbox' %}">Messages</a>
-                            <a class="dropdown-item" href="{% url 'jobs:create-listing' %}">Add Job</a>
-                            <a class="dropdown-item" href="{% url 'jobs:create-posting' %}">Add Specific Date Job</a>
-                            <a class="dropdown-item" href="{% url 'courses:create-course' %}">Add Class</a>
-                            <a class="dropdown-item" href="{% url 'venues:add-venue' %}">Add Venue</a>
-                            <a class="dropdown-item" href="{% url 'blog:create-blog'  %}">Create Blog </a>
-                            <a class="dropdown-item" href="{% url 'users:profile' user.pk %}">Profile | Update</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a>
-                          </div>
-                        </div>
-                {% else %}
-                    <li class="nav-item cta mr-md-2"><a href="{% url 'users:login' %}" class="nav-link">Login</a></li>
-                    <li class="nav-item cta cta-colored"><a href="{% url 'users:register' %}" class="nav-link">Register</a></li>
+                </button>
+                    <ul class="sub-menu2">
+                        <li><a href="{% url 'mail:inbox' %}">Messages</a></li>
+                        <li><a href="{% url 'jobs:create-listing' %}">Add Job</a></li>
+                        <li><a href="{% url 'jobs:create-posting' %}">Add Dated Job</a></li>
+                        <li><a href="{% url 'courses:create-course' %}">Add Class</a></li>
+                        <li><a href="{% url 'venues:add-venue' %}">Add Venue</a></li>
+                        <li><a href="{% url 'blog:create-blog' %}">Create Blog</a></li>
+                        <li><a href="{% url 'users:profile' user.pk  %}">Profile</a></li>
+                            <li><hr></li>
 
-                {% endif %}
+                        <li><a href="{% url 'users:logout' %}">Logout</a></li>
 
-	        </ul>
-	      </div>
-	    </div>
-	  </nav>
+
+                    </ul>
+                </li>
+            {% else %}
+
+
+                
+                <li><button class="btn btn__login"><a href="{% url 'users:register' %}">Register</a></button>
+
+                    </li>
+                <li><button class="btn btn__login"><a href="{% url 'users:login' %}">Login</a></button></li>
+            {% endif %}
 
 
 
+
+
+                <!-- <li><button class="btn-primary">Login</button></li>
+                <li><button class="btn-primary btn-info">Register</button> -->
+            </ul>
+        </nav>
+    </div>
+</header>

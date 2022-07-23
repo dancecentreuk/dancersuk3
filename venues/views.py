@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -106,3 +106,24 @@ class DeleteVenueView(SuccessMessageMixin, DeleteView):
         else:
             messages.add_message(self.request, messages.WARNING, 'Cheeky not your venue listing to delete !!!')
             return HttpResponseRedirect(self.success_url)
+
+
+class VenuesCategoryView(ListView):
+    template_name = 'venues/category-listings.html'
+    model = Venue
+    context_object_name = 'listings'
+    paginate_by = 1
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, pk=self.kwargs['pk'])
+        return Venue.objects.filter(category=self.category).filter(is_allowed=True)
+
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(VenuesCategoryView, self).get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        context['location_choices'] = location_choices
+        self.category = get_object_or_404(Category, pk=self.kwargs['pk'])
+        context['total_count'] = Venue.objects.filter(category=self.category).filter(is_allowed=True).count()
+        return context
+

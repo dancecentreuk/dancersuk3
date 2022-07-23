@@ -4,513 +4,15 @@
 
 
 {% block content %}
-    <div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/dancersuk-main3.jpg' %}');"
-         data-stellar-background-ratio="0.5">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start"
-                 data-scrollax-parent="true">
-            {% include 'partials/_alerts.html' %}
-                <div class="col-xl-10 ftco-animate mb-5 pb-5" data-scrollax=" properties: { translateY: '70%' }">
-                    <p class="mb-4 mt-5 pt-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">We currently have
-                        <span class="number" data-number="{{ classes_count }}">0</span> dance classes
-                        <span class="number" data-number="{{ all_jobs_count }}">0</span> jobs</p>
-                    <h1 class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Start Your
-                        <br><span>Dance Adventure</span></h1>
 
-                    <div class="ftco-search">
-                        <div class="row">
-                            <div class="col-md-12 nav-link-wrap">
-                                <div class="nav nav-pills text-center" id="v-pills-tab" role="tablist"
-                                     aria-orientation="vertical">
-                                    <a class="nav-link active mr-sm-1" id="v-pills-1-tab" data-toggle="pill"
-                                       href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Dance Class</a>
+    <!-- Introduction-->
+    <section class="intro" id="home">
+        <h1 class="section__title section__title--intro">
+            Start Your <strong> Dance Adventure </strong>
+        </h1>
+        <p class="section__subtitle section__subtitle--intro">dancersuk.co.uk</p>
+        <img src="{% static 'images/dance-manchester.jpg' %}" class="intro__img" alt="a picture of jane smiling">
 
-                                    <a class="nav-link mr-md-1" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2"
-                                       role="tab" aria-controls="v-pills-2" aria-selected="false">Specific Date Job</a>
-
-
-
-                                </div>
-                            </div>
-                            <div class="col-md-12 tab-wrap">
-
-                                <div class="tab-content p-4" id="v-pills-tabContent">
-
-                                    <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel"
-                                         aria-labelledby="v-pills-nextgen-tab">
-                              <form action="{% url 'courses:search-course' %}" class="search-job" method="get" >
-			              		<div class="row">
-                                <div class="col-md">
-			              				<div class="form-group">
-			              					<div class="form-field">
-				              					<div class="select-wrap">
-						                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-						                      <select name="style" id="" class="form-control">
-                                                  <option value="" selected="true">Style</option>
-                                                  {% for style in styles %}
-                                                      <option value="{{ style.id }}">{{ style.name }}</option>
-                                                  {% endfor %}
-						                      </select>
-						                    </div>
-								              </div>
-							              </div>
-			              			</div>
-			              			<div class="col-md">
-                                        <div class="form-group">
-                                            <div class="form-field">
-                                                <div class="select-wrap">
-                                              <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                              <select name="age_group" id="" class="form-control">
-                                                  <option selected="true" disabled="disabled">Age</option>
-                                                  {% for key, value in age_choices %}
-                                                    <option value="{{ key }}">{{ value }}</option>
-                                                  {% endfor %}
-                                              </select>
-                                            </div>
-                                              </div>
-                                          </div>
-			              			</div>
-
-			              			<div class="col-md">
-			              				<div class="form-group">
-			              					<div class="form-field">
-				              					<div class="select-wrap">
-						                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-						                      <select name="course_level" id="" class="form-control">
-                                                  <option value="" selected="true">Level</option>
-                                                  {% for level in levels %}
-                                                      <option value="{{ level.id }}">{{ level.title }}</option>
-                                                  {% endfor %}
-						                      </select>
-						                    </div>
-								              </div>
-							              </div>
-			              			</div>
-                                    <div class="col-md">
-                                        <div class="form-group">
-                                            <div class="form-field">
-                                                <div class="select-wrap">
-                                              <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                              <select name="course_location" id="" class="form-control">
-                                                  <option selected="true" disabled="disabled">Location</option>
-                                                  {% for key, value in location_choices %}
-                                                    <option value="{{ key }}">{{ value }}</option>
-                                                  {% endfor %}
-                                              </select>
-                                            </div>
-                                              </div>
-                                          </div>
-			              			</div>
-
-			              			<div class="col-md">
-			              				<div class="form-group">
-			              					<div class="form-field">
-								                <input type="submit" value="Search" class="form-control btn btn-primary">
-								              </div>
-							              </div>
-			              			</div>
-			              		</div>
-			              	</form>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="v-pills-2" role="tabpanel"
-                                         aria-labelledby="v-pills-performance-tab">
-			              	<form action="{% url 'jobs:search-postings' %}" class="search-job" method="get" >
-			              		<div class="row">
-			              			<div class="col-md">
-			              				<div class="form-group">
-				              				<div class="form-field">
-				              					<div class="icon"><span class="icon-briefcase"></span></div>
-								                <input type="text" class="form-control" name="job_title" placeholder="eg musical">
-								              </div>
-							              </div>
-			              			</div>
-
-			              			<div class="col-md">
-			              				<div class="form-group">
-			              					<div class="form-field">
-				              					<div class="select-wrap">
-						                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-						                      <select name="job_type" id="" class="form-control">
-                                                  <option value="" selected="true">Category</option>
-                                                  {% for category in job_categories %}
-                                                      <option value="{{ category.id }}">{{ category.title }}</option>
-                                                  {% endfor %}
-						                      </select>
-						                    </div>
-								              </div>
-							              </div>
-			              			</div>
-                                    <div class="col-md">
-                                        <div class="form-group">
-                                            <div class="form-field">
-                                                <div class="select-wrap">
-                                              <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                              <select name="job_location" id="" class="form-control">
-                                                  <option selected="true" disabled="disabled">Location</option>
-                                                  {% for key, value in location_choices %}
-                                                    <option value="{{ key }}">{{ value }}</option>
-                                                  {% endfor %}
-                                              </select>
-                                            </div>
-                                              </div>
-                                          </div>
-			              			</div>
-			              			<div class="col-md">
-			              				<div class="form-group">
-			              					<div class="form-field">
-								                <input type="submit" value="Search" class="form-control btn btn-primary">
-								              </div>
-							              </div>
-			              			</div>
-			              		</div>
-			              	</form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <section class="ftco-section services-section bg-light">
-        <div class="container">
-            <div class="row d-flex">
-                <div class="col-md-3 d-flex align-self-stretch ftco-animate">
-                    <div class="media dance-image block-6 services d-block">
-                        <img src="{% static 'images/ballet_dance_classes.jpg' %}"  alt="">
-                        <div class="media-body">
-                            <h3 class="heading mb-3">Find a Dance Classes</h3>
-                            <p class="pr-1" style="font-size: 14px;">Looking for a  dance class in your area why not search and see what is currently running.
-                                Alternatively if you are an instructor let people know </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 d-flex align-self-stretch ftco-animate">
-                    <div class="media dance-image block-6 services d-block">
-                        <img src="{% static 'images/ballet_dance_audition_uk.jpg' %}"  alt="">
-                        <div class="media-body">
-                            <h3 class="heading mb-3">List Jobs for Dancers</h3>
-                            <p class="pr-1" style="font-size: 14px;">Looking for a dancer or a dance teacher is now as simple as ever list your dance job in our jobs section.
-                            We even have a  section for cover jobs.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 d-flex align-self-stretch ftco-animate">
-                    <div class="media dance-image block-6 services d-block">
-                            <img src="{% static 'images/ballet_dance_teacher_uk.jpg' %}"  alt="">
-                        <div class="media-body">
-                            <h3 class="heading mb-3">Find Dancers and Teachers</h3>
-                            <p class="pr-1" style="font-size: 14px;">Search through a  list of Dancers available for dance jobs auditions. Dancers get found easily and quickly by every one</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 d-flex align-self-stretch ftco-animate">
-                    <div class="media dance-image block-6 services d-block">
-                        <img src="{% static 'images/dance_studio.jpg' %}"  alt="">
-                        <div class="media-body">
-                            <h3 class="heading mb-3">List your Dance Venue To Hire</h3>
-                            <p class="pr-1" style="font-size: 14px;">Whether you are looking for a venue to hire for dance  of have a
-                                space you want to rent out why not make use of our venue section </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="ftco-section ftco-counter">
-        <div class="container">
-            <div class="row justify-content-center mb-5 pb-3">
-                <div class="col-md-7 heading-section text-center ftco-animate">
-{#                    <span class="subheading"></span>#}
-                    <h2 class="mb-4"><span>Current</span> Dance Styles</h2>
-                </div>
-            </div>
-            <div class="row">
-                {% for style in styles %}
-                    <div class="col-lg-3 col-md-4 col-sm-6 ftco-animate">
-                        <ul class="category">
-                            <li><a href="{% url 'courses:style_detail' style.pk style.slug %}">
-                                {{ style.name }} <span class="number" data-number="{{ style.dance_style_count }}">0</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                {% endfor %}
-
-            </div>
-
-{#        <div class="row justify-content-center mb-5 pb-3">#}
-{#                <div class="col-md-7 heading-section text-center ftco-animate">#}
-{#                    <span class="subheading"></span>#}
-{#                    <h2 class="mb-4"><span>Current</span> Dance Classes Levels</h2>#}
-{#                </div>#}
-{#            </div>#}
-{##}
-{#        <div class="row">#}
-{#                {% for level in levels %}#}
-{#                    <div class="col-lg-3 col-md-4 col-sm-6 ftco-animate">#}
-{#                        <ul class="category">#}
-{#                            <li><a href="{% url 'courses:level_detail' level.pk level.slug %}">#}
-{#                                {{ level.title }} <span class="number" data-number="{{ level.courses_count }}">0</span></a>#}
-{#                            </li>#}
-{#                        </ul>#}
-{#                    </div>#}
-{#                {% endfor %}#}
-{##}
-{#            </div>#}
-        </div>
-    </section>
-
-    <section class="ftco-section bg-light">
-        <div class="container">
-            <div class="row justify-content-center mb-5 pb-3">
-                <div class="col-md-7 heading-section text-center ftco-animate">
-{#                    <span class="subheading"></span>#}
-                    <h2 class="mb-4"><span>Recently Added </span>Classes</h2>
-                </div>
-            </div>
-            <div class="row">
-                {% for course in courses %}
-                    <div class="col-md-12 ftco-animate">
-                        <div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center">
-
-                            <div class="mb-4 mb-md-0 mr-5">
-                                <div class="job-post-item-header d-flex align-items-center">
-                                    <h2 class="mr-3 text-black h4">{{ course.title }}</h2>
-                                    <div class="badge-wrap">
-                                        {% if course.age_group == 'toddlers' %}
-                                            <span class="bg-warning text-white badge py-2 px-3">Toddlers</span>
-                                        {% elif course.age_group == 'children' %}
-                                            <span class="bg-primary text-white badge py-2 px-3">Children</span>
-                                        {% elif course.age_group == 'teens' %}
-                                            <span class="bg-secondary text-white badge py-2 px-3">Teen</span>
-                                        {% elif course.age_group == 'adults' %}
-                                            <span class="bg-danger text-white badge py-2 px-3">Adults</span>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="job-post-item-body d-block d-md-flex">
-                                    <div class="mr-3"><span class="icon-layers"></span> <a href="{% url 'pages:profile-info' course.author.id course.author.first_name %}">{{ course.author.first_name }}</a>
-                                    </div>
-                                    <div class="mr-3"><span class="icon-layers"></span> <span>{{ course.dance_style }}</span>
-                                    </div>
-                                    <div class="mr-3"><span class="icon-my_location"></span>
-                                        <span>{{ course.course_level }} Level</span></div>
-                                    <div><span class="icon-my_location"></span> <span>{{ course.location }}, UK</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="ml-auto d-flex">
-                                <a href="{% url 'courses:course-detail' course.pk course.slug %}" class="btn btn-primary py-2 mr-1">View</a>
-                                <a href="#"
-                                   class="btn btn-danger rounded-circle btn-favorite d-flex align-items-center">
-                                    <span class="icon-heart"></span>
-                                </a>
-                            </div>
-
-                        </div>
-                    </div> <!-- end -->
-                {% endfor %}
-            </div>
-            <div class="row mt-5">
-                {% if is_paginated %}
-                    <div class="col text-center">
-                        <div class="block-27">
-                            <ul>
-                                {% if page_obj.has_previous %}
-                                    <li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
-                                {% else %}
-                                    <li class="disabled"><span>&lt;</span></li>
-                                {% endif %}
-                                {% for i in paginator.page_range %}
-                                    {% if page_obj.number == i %}
-                                        <li class="active"><span>{{ i }}</span></li>
-                                    {% else %}
-                                        <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                    {% endif %}
-                                {% endfor %}
-                                {% if page_obj.has_next %}
-                                    <li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
-                                {% else %}
-                                    <li class="disabled"><span>&gt;</span></li>
-                                {% endif %}
-
-                            </ul>
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    </section>
-
-    <section class="ftco-section ftco-counter img" id="section-counter"
-             style="background-image: url({% static 'images/ballet_dance_jobs_bg_4.jpg' %});"
-             data-stellar-background-ratio="0.5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-10">
-                    <div class="row">
-                        <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
-                            <div class="block-18 text-center">
-                                <div class="text">
-                                    <strong class="number" data-number="{{ classes_count }}">0</strong>
-                                    <span>Classes</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
-                            <div class="block-18 text-center">
-                                <div class="text">
-                                    <strong class="number" data-number="{{ listings.count }}">0</strong>
-                                    <span>Dance Jobs</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
-                            <div class="block-18 text-center">
-                                <div class="text">
-                                    <strong class="number" data-number="{{ postings.count }}">0</strong>
-                                    <span>Specific Date  Dance Jobs</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
-                            <div class="block-18 text-center">
-                                <div class="text">
-                                    <strong class="number" data-number="{{ talents.count }}">0</strong>
-                                    <span>Talent</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
-    <section class="ftco-section bg-light mb-1 pb-4 ">
-        <div class="container">
-            <div class="row justify-content-center mb-1 pb-3">
-                <div class="col-md-7 heading-section text-center ftco-animate mb-0">
-                    <h2 class="mb-4"><span>Latest</span> Dance Jobs</h2>
-                </div>
-            </div>
-            <div class="row">
-                {% for listing in listings|slice:":5" %}
-                    <div class="col-md-12 ftco-animate">
-                        <div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center">
-
-                            <div class="mb-4 mb-md-0 mr-5">
-                                <div class="job-post-item-header d-flex align-items-center">
-                                    <h2 class="mr-3 text-black h4">{{ listing.title }}</h2>
-                                    {#						     <div class="badge-wrap">#}
-                                    {#                                 {% if course.age_group == 'toddlers' %}#}
-                                    {#                                     <span class="bg-warning text-white badge py-2 px-3">Toddlers</span>#}
-                                    {#                                 {% elif course.age_group == 'children' %}#}
-                                    {#                                     <span class="bg-primary text-white badge py-2 px-3">Children</span>#}
-                                    {#                                 {% elif course.age_group == 'teens' %}#}
-                                    {#                                     <span class="bg-secondary text-white badge py-2 px-3">Teen</span>#}
-                                    {#                                 {% elif course.age_group == 'adults' %}#}
-                                    {#                                     <span class="bg-danger text-white badge py-2 px-3">Adults</span>#}
-                                    {#                                 {% endif %}#}
-                                    {#						     </div>#}
-                                </div>
-                                <div class="job-post-item-body d-block d-md-flex">
-                                    <div class="mr-3"><span class="icon-layers"></span> <a
-                                            href="{% url 'pages:profile-info'  listing.author.profile.id listing.author.first_name %}">{{ listing.author.first_name }}.</a></div>
-                                    <div class="mr-3"><span class="icon-money"></span> <span>£{{ listing.fee }} </span>
-                                    </div>
-                                    <div class="mr-3"><span class="icon-layers"></span>
-                                        <span>{{ listing.category }} </span></div>
-                                    <div><span class="icon-my_location"></span> <span>{{ listing.location }}, UK</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="ml-auto d-flex">
-                                <a href="{% url 'jobs:single-listing' listing.slug listing.pk %}"
-                                   class="btn btn-primary py-2 mr-1">View</a>
-                                <a href="#"
-                                   class="btn btn-danger rounded-circle btn-favorite d-flex align-items-center">
-                                    <span class="icon-heart"></span>
-                                </a>
-                            </div>
-
-                        </div>
-                    </div> <!-- end -->
-                {% endfor %}
-            </div>
-
-        </div>
-    </section>
-    <hr>
-
-
-
-
-
-
-
-
-
-
-    <section class="ftco-section bg-light pt-5">
-        <div class="container">
-            <div class="row justify-content-center mb-1 pb-3">
-                <div class="col-md-7 heading-section text-center ftco-animate">
-
-                    <h2 class="mb-1"><span>Latest </span>Specific Date Dance Jobs</h2>
-                    <span class="subheading pb-2">These are  Jobs with Specific Dates</span>
-                </div>
-            </div>
-            <div class="row">
-                {% for listing in postings|slice:":5" %}
-                    <div class="col-md-12 ftco-animate">
-                        <div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center">
-
-                            <div class="mb-4 mb-md-0 mr-5">
-                                <div class="job-post-item-header d-flex align-items-center">
-                                    <h2 class="mr-3 text-black h4">{{ listing.title }}</h2>
-                                    <div class="badge-wrap">
-                                        {% if listing.is_posting == False %}
-                                            <span class="bg-warning text-white badge py-2 px-3">Dated</span>
-                                        {% endif %}
-                                    </div>
-
-                                </div>
-                                <div class="job-post-item-body d-block d-md-flex">
-                                    <div class="mr-3"><span class="icon-layers"></span> <a
-                                            href="{% url 'pages:profile-info' listing.author.id listing.author.first_name %}">{{ listing.author.first_name }}.</a></div>
-                                    <div class="mr-3"><span class="icon-money"></span> <span>£{{ listing.fee }} </span>
-                                    </div>
-                                    <div class="mr-3"><span class="icon-date_range"></span>
-                                        <span>{{ listing.date }} </span></div>
-                                    <div><span class="icon-my_location"></span> <span>{{ listing.location }}, UK</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="ml-auto d-flex">
-                                <a href="{% url 'jobs:single-posting' listing.slug listing.pk %}"
-                                   class="btn btn-primary py-2 mr-1">View</a>
-                                <a href="#"
-                                   class="btn btn-danger rounded-circle btn-favorite d-flex align-items-center">
-                                    <span class="icon-heart"></span>
-                                </a>
-                            </div>
-
-                        </div>
-                    </div> <!-- end -->
-                {% endfor %}
-            </div>
-        </div>
     </section>
 
 
@@ -520,75 +22,253 @@
 
 
 
-    <section class="ftco-section ftco-counter">
-        <div class="container">
-            <div class="row justify-content-center mb-5 pb-3">
-                <div class="col-md-7 heading-section text-center ftco-animate">
-                    <h2 class="mb-4"><span>Latest </span>Dance Talent</h2>
+    <!-- Search -->
+    <section class="my-search">
+        <h1 class="section__title section__title--search">What Now ?</h1>
+
+    </section>
+
+    <!-- End Search -->
+
+
+     <!-- News -->
+
+     <section class="section__container section__container-light">
+        <h2 class="section__title section__title--news">Just So You Know</h2>
+
+            <div class="news-items">
+                <!--news item 1-->
+                <div class="news-item">
+                    <div class="news-item-image">
+                        <img src="{% static 'images/portfolio-01.jpg' %}" alt="">
+                    </div>
+                    <div class="news-item-body">
+                        <h3>Find a Dance Class</h3>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatibus ad repellendus fugit accusamus expedita excepturi!</p>
+                        <p class="read-more"></p>
+                    </div>
                 </div>
+
+                <!--news item 1-->
+                <div class="news-item">
+                    <div class="news-item-image">
+                        <img src="{% static 'images/portfolio-02.jpg' %}" alt="">
+                    </div>
+                    <div class="news-item-body">
+                        <h3>List Dance Job</h3>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatibus ad repellendus fugit accusamus expedita excepturi!</p>
+                        <p class="read-more"></p>
+                    </div>
+                </div>
+
+                <!--news item 1-->
+                <div class="news-item">
+                    <div class="news-item-image">
+                        <img src="{% static 'images/portfolio-03.jpg' %}" alt="">
+                    </div>
+                    <div class="news-item-body">
+                        <h3>Find Dance Talent</h3>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatibus ad repellendus fugit accusamus expedita excepturi!</p>
+                        <p class="read-more"></p>
+                    </div>
+                </div>
+
+
+                <!--news item 4-->
+                <div class="news-item">
+                    <div class="news-item-image">
+                        <img src="{% static 'images/portfolio-04.jpg' %}" alt="">
+                    </div>
+                    <div class="news-item-body">
+                        <h3>List Dance Venue</h3>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatibus ad repellendus fugit accusamus expedita excepturi!</p>
+                        <p class="read-more"></p>
+                    </div>
+                </div>
+
             </div>
-            <div class="cards-poop">
-                {% for talent in talents|slice:":10" %}
-                    <div class="card">
-                        <img class="card__image" src="{{ talent.dancers_image.url }}" alt="">
-                        <div class="card__content">
-                            <p class="meta">
-                                {{ talent.user.first_name | title }}
-                            </p>
-                            {% if talent.user.profile.location == None %}
-                                <p><br></p>
-                            {% else %}
-                                <p>{{ talent.user.profile.location | title }}</p>
+
+
+    </section>
+
+
+
+
+
+
+
+    <!-- End News -->
+
+
+
+
+
+    <!--Latest Dance jobs-->
+
+    <section class="section__container">
+        <h2 class="heading underline">Latest Jobs</h2>
+            <div class="list__items">
+
+                {% for job in all_jobs %}
+                <!-- item1 -->
+                <div class="item">
+                    <div class="item__left">
+                        <div class="item__heading">
+                            <h3 class="heading heading__item">{{ job.title }}</h3>
+                            <div class="item__heading-btn">
+                               <button {% if job.is_posting == False %}class="btn__display btn__display-highlight"{% else %}class="btn__display"{% endif %} >£{{ job.fee }}</button>
+                            </div>
+                        </div>
+                        <div class="item__info">
+                            <div class="item__col"><i class="fas fa-user"></i>{{ job.author.first_name | title }}</div>
+                            <div class="item__col"><i class="fas fa-money-bill"></i>£{{ job.fee }}</div>
+                            <div class="item__col"><i class="fas fa-layer-group"></i>{{ job.category | title }}</div>
+                            {% if job.is_posting == False %}
+                                <div class="item__col" style="color: red"><i class="fas fa-calendar" style="color: red"></i>{{ job.date  }}</div>
                             {% endif %}
-
+                            <div class="item__col"><i class="fas fa-thumbtack"></i>{{ job.location | title }}</div>
                         </div>
-                        <div class="card__info">
 
-                            <a href="{% url 'pages:talent-detail' talent.id talent.slug %}"
-                               class="btn btn-outline-secondary  btn-sm my-1 font-weight-light">View Profile</a>
 
-                        </div>
                     </div>
+                    <div class="item__right">
+
+                        {% if job.is_posting == False %}
+                            <a href="{% url 'jobs:single-posting' job.slug job.pk %}" class="btn btn__view">View</a>
+                        {% else %}
+                            <a href="{% url 'jobs:single-listing' job.slug job.pk %}" class="btn btn__view">View</a>
+                        {% endif %}
+
+                    </div>
+
+                </div>
                 {% endfor %}
 
+
+
+
             </div>
-        </div>
     </section>
 
 
-    <section class="ftco-section bg-light">
-        <div class="container">
-            <div class="row justify-content-center mb-5 pb-3">
-                <div class="col-md-7 heading-section text-center ftco-animate">
-{#                    <span class="subheading">Our Blog</span>#}
-                    <h2><span>Featured</span> Blog</h2>
-                </div>
-            </div>
-            <div class="row d-flex">
-                {% for blog in blogposts %}
-                    <div class="col-md-3 d-flex ftco-animate">
-                    <div class="blog-entry align-self-stretch">
-                        <a href="{% url 'blog:blog-detail' blog.pk %}" class="block-20"
-                           style="background-image: url('{{ blog.blog_image.url }}');">
-                        </a>
-                        <div class="text mt-3">
-                           <div class="meta mb-2">
-                              <div>{{ blog.timestamp.date }}</div>
-                              <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                                <br>
-                                <div><a href="#">{{ blog.category }}</a></div>
+    <!--End Latest Dance Jobs-->
+
+
+
+
+
+
+
+
+    <!--Dance Styles-->
+
+
+    <section class="section__container">
+        <h2 class="heading underline">Dance Classes Styles</h2>
+
+        <div class="categories">
+
+
+
+
+            <ul class="category__items category__items-courses">
+                {% for style in styles %}
+                    <li class="category__shell"><a href="" class="category__item">{{ style.name | title }} <span> ({{ style.dance_style_count }})</span> </a></li>
+                {% endfor %}
+            </ul>
+
+       </div>
+
+
+    </section>
+
+    <!--End Dance styles-->
+
+
+
+
+    <!--Your Classes-->
+
+    <section class="section__container">
+        <h2 class="heading underline">Latest Classes</h2>
+            <div class="list__items">
+
+                {% for course in courses %}
+                    <div class="item">
+                    <div class="item__left">
+                        <div class="item__heading">
+                            <h3 class="heading heading__item">{{ course.title | title}}</h3>
+                            <div class="item__heading-btn">
+                               <button class="btn__display">£{{ course.price }}</button>
                             </div>
-                            <h3 class="heading"><a href="{% url 'blog:blog-detail' blog.pk %}">{{ blog.title }}</a></h3>
-                            <p>{{ blog.content | truncatechars:100 }}</p>
-                              <div class="meta mb-2">
-                                  <div><a href="{% url 'pages:profile-info' blog.author.id blog.author.first_name %}" class="text-danger">{{ blog.author.first_name }} {{ blog.author.last_name }}</a></div>
-                                </div>
                         </div>
+                        <div class="item__info">
+                            <div class="item__col"><i class="fas fa-user"></i>{{ course.author.first_name | title }}</div>
+                            <div class="item__col"><i class="fas fa-money-bill"></i>£{{ course.price }}</div>
+                            <div class="item__col"><i class="fas fa-layer-group"></i>{{ course.dance_style}}</div>
+                            <div class="item__col"><i class="fas fa-thumbtack"></i>{{ course.location | title }}</div>
+                        </div>
+
+
                     </div>
+                    <div class="item__right">
+
+                        <a href="{% url 'courses:course-detail' course.pk course.slug %}" class="btn btn__view">View</a>
+
+
+                    </div>
+
                 </div>
+
                 {% endfor %}
 
+
+
+
+
             </div>
-        </div>
     </section>
+
+
+    <!--End latest dance classes-->
+
+
+
+   <!--latest talent-->
+
+   <section class="section__container">
+    <div class="dancers__profiles">
+        <div class="profile-space">
+            <h2 class="section__title--dancers underline">Latest Talent</h2>
+        </div>
+
+
+        <div class="dancers-home">
+
+
+            {% for talent in talents %}
+                <!--porfolio item 1 -->
+                <div class="dancer__holder">
+                <div class="dancer__img-container">
+                    <a href="#" class="dancer__item">
+                        <img src="{{ talent.dancers_image.url }}" alt="" class="portfolio__img">
+                    </a>
+                </div>
+                <div class="dancer-name">
+                    <a href="">{{ talent.user.first_name | title }} {{ talent.user.last_name | title }}</a>
+                </div>
+            </div>
+
+            {% endfor %}
+
+    </div>
+    </div>
+   </section>
+
+
+
 {% endblock %}
+
+
+
+

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% load humanize %}
+
+{% block content %}
+
+
+       <!-- Introduction-->
+
+
+
+
+    <section class="container-holder" id="create-container">
+
+
+        <div class="form-container form-space">
+            <div class="form-title"> Register </div>
+            <form action="#" method="POST" enctype='multipart/form-data' >
+                {% csrf_token %}
+
+
+
+                <div class="form-details">
+
+
+                     {% if form.errors %}
+                     <div class="alert alert-danger alert-dismissible" role="alert">
+                         <div id="form_errors">
+                             {% for key,value in form.errors.items %}
+                             <span class="fieldWrapper">
+                                 {{ key }} : {{ value }}
+                             </span>
+                             {% endfor %}
+                         </div>
+                         <button type="button" class="close" data-dismiss="alert" aria-hidden="Close">
+                             <span aria-hidden="true">&times</span>
+                         </button>
+
+                     </div>
+                     {% endif %}
+
+
+
+                    {{ form.as_p }}
+
+
+                    <div class="form-button">
+                        <input class="message-btn" type="submit" value="Login">
+                    </div>
+                <p>
+                    Dont have an account register <a href="{% url 'users:register' %}">here</a>
+                </p>
+
+                </div>
+            </form>
+        </div>
+
+
+
+
+
+    </section>
+
+
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,180 @@
+/* forms */
+
+
+label {
+    color: #000000;
+
+}
+
+
+.container-holder {
+    display: flex;
+    background: #f8f9fa;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+.form-container {
+    max-width: 1000px;
+    width: 100%;
+    background: #fff;
+    padding: 2rem 3rem;
+    border-radius: 5px;
+}
+
+.form-space {
+    margin-top: 3rem;
+}
+
+.form-container .form-title {
+    font-size: 2rem;
+    font-weight: 500;
+    position: relative;
+
+}
+
+.form-container .form-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background: var(--clr-accent);
+}
+
+.form-container form .form-details {
+    margin: 20px 0 12px 0;
+ }
+
+ form .form-details .input-box,
+ form .form-details .form-select{
+     /* width: calc(100% / 2 - 20px); */
+     margin-bottom: 20px;
+     margin-top: 20px;
+ }
+
+ .form-details .input-box .details,
+ .form-select .details,
+ .form-text-area .details {
+
+    display: block;
+    font-weight: 500;
+    margin-bottom: 6px;
+
+
+ }
+
+
+ .form-details .input-box input,
+ .form-select select,
+ .form-text-area textarea{
+     height: 2.9rem;
+     width: 100%;
+     outline: none;
+     border-radius: 5px;
+     border: 1px solid #ccc;
+     padding-left: 15px;
+     font-size: 1.1rem;
+     border-bottom-width: 2px;
+     transition: all 0.3s ease;
+ }
+
+.form-text-area textarea {
+    height: 100%;
+
+}
+
+
+ .form-details .input-box input:focus,
+ .form-text-area textarea:focus  {
+     border-color: var(--clr-accent);
+ }
+
+
+
+ .form-button .message-btn{
+     max-width: 15rem;
+
+
+ }
+
+
+ @media (max-width: 500px) {
+
+
+    .container-holder {
+        padding: 2rem .5rem;
+    }
+
+    .form-container {
+
+        padding: 1rem 1rem;
+
+    }
+
+    .form-button .message-btn{
+        max-width: 100%;
+
+
+    }
+
+
+ }
+
+.new-input,
+.description-input,
+.new-input__modal,
+.new-input__modal-textarea {
+     height: 2.9rem;
+     width: 100%;
+     outline: none;
+     border-radius: 5px;
+     border: 1px solid #ccc;
+     padding-left: 15px;
+     font-size: 1.1rem;
+     border-bottom-width: 2px;
+     transition: all 0.3s ease;
+    margin-top: 2px;
+}
+
+.new-input__modal-textarea {
+    width: 100%;
+  height: 125px;
+  resize: none;
+}
+
+
+.new-input__modal {
+    margin-bottom: 2rem;
+}
+
+.description-input {
+
+    height: 100%;
+}
+
+
+.new-input:focus,
+.description-input:focus {
+    border-color: var(--clr-accent);
+}
+
+.image-input {
+
+
+     width: 50%;
+     outline: none;
+     border-radius: 5px;
+     font-size: 1.1rem;
+     border-bottom-width: 2px;
+     transition: all 0.3s ease;
+    padding-top: 15px;
+    bottom: 15px;
+    display: block;
+
+
+}

@@ -45,13 +45,15 @@ class Venue(models.Model):
     wooden_floor = models.BooleanField(default=False)
     music_system = models.BooleanField(default=False)
     floor_type = models.CharField(max_length=255, blank=True)
+    size = models.CharField(max_length=9, blank=True)
+    about_venue = models.TextField(blank=True, max_length=1000)
     notes = models.TextField(blank=True)
     is_published = models.BooleanField(default=True)
     is_allowed = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     venue_image = models.ImageField(upload_to='venue_image/%Y/%m/%d', default='dance_class.jpg')
-    venue_image_1 = models.ImageField(upload_to='venue_image/%Y/%m/%d', blank=True)
+    venue_image_1 = models.ImageField(upload_to='venue_image/%Y/%m/%d', blank=True, null=True)
     venue_image_2 = models.ImageField(upload_to='venue_image/%Y/%m/%d', blank=True)
     slug = models.SlugField(default=None, editable=False)
 
@@ -66,6 +68,18 @@ class Venue(models.Model):
         if self.updated is None:
             return self.timestamp
         return self.updated
+
+    def mirrors_results(self):
+        if self.mirrors == True:
+            return ('Has Mirrors')
+        else:
+            return ('No Mirrors')
+
+    def musicsystem_results(self):
+        if self.music_system == True:
+            return ('Has Music Sytem')
+        else:
+            return ('No Music System')
 
 
     class Meta:

@@ -2,298 +2,172 @@
 {% load static %}
 {% load humanize %}
 
+
 {% block content %}
 
-    <div class="hero-wrap js-fullheight" {% include 'partials/_hero_image.html' %} data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start" data-scrollax-parent="true">
-            {% include 'partials/_alerts.html' %}
-          <div class="col-md-8 ftco-animate text-center text-md-left mb-5" data-scrollax=" properties: { translateY: '70%' }">
-          	<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-3"><a href="{% url 'pages:home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-3"><a href="{% url 'courses:courses' %}">Dance Classes <i class="ion-ios-arrow-forward"></i></a></span> <span>Detail</span></p>
-            <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Class Detail</h1>
-          </div>
+
+
+
+     <!-- Introduction-->
+    <section class="course-intro" id="coursehome">
+        <h1 class="section__title section__title--course">
+            {{ course.course_level }} <span class="alt-strong"> {{ course.title |title}}</span>
+        </h1>
+        <p class="section__subtitle section__subtitle--course-intro">{{ course.dance_style }}</p>
+        <img src="{{ course.dance_class_image.url }}" class="course-intro__img" alt="a picture of jane smiling">
+        {% if request.user == course.author %}
+            <button class="btn btn__message-profile"><a href="{% url 'courses:update-course' course.pk  course.slug%}">Update</a>  </button>
+        {% else %}
+            <a href="{% url 'mail:create-course-communication'  course.author_id course.pk %}"><button class="btn  btn__message-talent">MESSAGE
+                {{ talent.user.first_name }}</button></a>
+        {% endif %}
+
+
+
+    </section>
+
+
+
+
+    <section class="section__container section__container-white">
+        <div class="inner__grey inner__grey-course">
+            <div class="left__column">
+                <h2 class="section__title section__title--course" >{{ course.title | title }}</h2>
+                <span><hr></span>
+                <div class="course-rating">
+                    <div><p>Class Rating :  <span>{{ ratings.count }} sort/10</span> </p></div> <br>
+                </div>
+                <div class="course-day">{{ course.day }} {{ course.start_time }}-{{ course.end_time}}</div>
+                <div class="course-address">
+                    <br>
+                    <p><span>Address : </span><br>
+                        {{ course.address |title}}<br>
+                        {{ course.location | title }} <br>
+                        {{ course.postcode | upper}}
+                    </p><br>
+                    <p>
+                        <span>Level :</span> {{ course.course_level | title }}
+                    </p>
+                    <p>
+                        <span>Age :</span> {{ course.age_group | title}}
+                    </p>
+                    <p>
+                        <span>Drop in or Course :</span> {{ course.drop_in}}
+                    </p>
+                    <p><span>Cost :</span>  £{{ course.price }}</p>
+                    <p class="updated">Last Updated {{ course.updated | naturaltime}}</p>
+                </div>
+            </div>
+            <div class="right__column">
+                <h2 class="section__title section__title--course" >More Info</h2>
+                <span><hr></span>
+                <p class="heading">About the class :</p>
+                <p>
+                    {{ course.about_dance_class | linebreaks }}
+                </p>
+                <p class="heading">
+                    Experience :
+                </p>
+                <p>
+                    {{ course.experience }}
+                </p>
+
+                <p class="heading">
+                    Faq's :
+                </p>
+                <p>
+                    {{ course.faq | linebreaks }}
+                </p>
+            </div>
+
         </div>
-      </div>
+    </section>
+
+
+    <!-- Course detail-->
+
+
+
+
+<section class="section__container">
+<div class="review-heading">
+        <h2 class="heading underline">Your Reviews</h2>
+        <div class="btn__holder">
+            {% if request.user.is_authenticated and request.user != course.author %}
+                {% if request.user not in commenters %}
+                    <a href="{% url 'courses:create-review' course.pk %}" class="btn btn__review-create">Create Review</a>
+            {% else %}
+            You have allready written a review
+            {% endif %}
+        {% endif %}
+        </div>
+
     </div>
-
-    <section class="ftco-section ftco-degree-bg">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 ftco-animate">
-
-
-           <div class="card mb-3 bg-light border-0" style="max-width: 750px;">
-                        <div class="row no-gutters">
-                            <div class="col-md-4 p-4">
-                                <div class="row">
-                                    <img src="{{ course.dance_class_image.url }}" class="card-img" alt="..." style="max-height: 25rem">
-                                </div>
-                                {% if course.author != request.user %}
-                                <div class="row pt-1">
-                                    <a href="{% url 'mail:create-course-communication'  course.author.pk course.pk %}"
-                                       class=" btn btn-outline-info btn-sm btn-block">MESSAGE {{ course.author.first_name | upper }}</a>
-
-                                </div>
-                                {% endif %}
-
-
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body bg-light">
-                                <h4 class="card-title">{{ course.title| title }} </h4>
-                                <div class="row">
-                                    <div class="col-8">
-                                        Class Rating
-                                    </div>
-                                    <div class="col-4">
-                                        <h5 class="text-right text-info">
-                                            {% if average %}
-                                            {{ average }}/10 </h5>
-                                        {% else %}
-                                        Not Rated
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                    <hr>
-                                    <div class="row no-gutters">
-                                <div class="container-fluid">
-                                    <div class="mt-1 numbers d-flex flex-md-row flex-wrap ">
-
-                                        {% if course.dance_class_image_1 %}
-
-                                    <div class="gallery rect-2 mt-0">
-                                        <a href="{{ course.dance_class_image_1.url }}" data-lightbox="mygallery" data-title="">
-                                            <img src="{{ course.dance_class_image_1.url }}" alt="{{ course.title }} image-1"/>
-                                        </a>
-                                    </div>
-                                        {% endif %}
-
-
-                                        {% if course.dance_class_image_2 %}
-                                            <div class="gallery rect-2 mt-0">
-                                                <a href="{{ course.dance_class_image_2.url }}" data-lightbox="mygallery" data-title="">
-                                                    <img src="{{ course.dance_class_image_2.url }}" alt="{{ course.title }} image-2"/>
-                                                </a>
-                                            </div>
-                                        {% endif %}
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                                    <div class="col-12">{{ course.age_group | title }} {{ course.course_level | title }}</div>
-                                    <div class="col-12">{{ course.dance_style | title }} </div>
-                                    <div class="col-12">{{ course.day | title }} {{ course.start_time }}-{{ course.end_time }}</div>
-                                    <div class="col-12">{{ course.location | title }}</div>
-                                    <div class="col-12"><p class="card-text"><small class="text-muted">Last
-                                        updated {{ course.updated_info | naturaltime }}</small></p></div>
-
-                                </div>
-                            </div>
+            <div class="review__items">
+                {% for review in ratings %}
+                     <div class="review__item">
+                    <div class="review__item-holder">
+                        <div class="review__col-left">
+                            <div class="review__person">{{ review.user.first_name }}</div>
+                            <div class="review__rating">{{ review.rating }}/10</div>
+                        </div>
+                        <div class="review__col-right">
+                            {{ review.comment }}
                         </div>
                     </div>
+                         {% if request.user == review.user %}
+                    <div class="review__item-buttons">
+                        <a href="{% url 'courses:update-review' review.id %}" class="btn btn__review btn__accent">Edit Review</a>
+                        <a href="{% url 'courses:delete-review' review.id %}" class="btn btn__review">Delete Review</a>
 
-
-{#          <div class="card mb-3 bg-light border-0" style="max-width: 750px;">#}
-{#                        <div class="row no-gutters">#}
-{##}
-{#                            <div class="col-md-12">#}
-{#                                <div class="card-body bg-light">#}
-{##}
-{#                                    <div class="row">#}
-{#                                        <div class="col-6">#}
-{#                                            <a href="{% url 'courses:create-review' course.pk  %}" class="btn btn-outline-info btn-block float-left py-0">Create Review</a>#}
-{#                                        </div>#}
-{#                                        <div class="col-6">#}
-{#                                            <h5>9.5/10</h5>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{##}
-{##}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-
-
-          <div class="card mb-3 bg-light border-0" style="max-width: 750px;">
-                        <div class="row no-gutters">
-
-                            <div class="col-md-12">
-                                <div class="card-body bg-light">
-                                    <h4 class="card-title">{{ course.age_group | title}} {{ course.course_level }} {{ course.dance_style }} Class in {{ course.location | title }}</h4>
-                                    <hr>
-
-
-
-
-                                    <div class="col-12">{{ course.day | title }} {{ course.start_time }}-{{ course.end_time }}</div>
-                                    <div class="col-12 text-dark"><br>Address :</div>
-                                    <div class="col-12">{{ course.address | title }}</div>
-                                    <div class="col-12">{{ course.location | title }}</div>
-                                    <div class="col-12">{{ course.postcode | title }}</div>
-                                    <div class="col-12"><p class="text-dark"> Cost: £{{ course.price|floatformat }} </p></div>
-                                    <div class="col-12"><p class="card-text"><small class="text-muted">Last
-                                        updated {{ course.updated_info | naturaltime }}</small></p></div>
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
+                     {% endif %}
 
+                </div>
 
-           <div class="card mb-3 bg-light border-0" style="max-width: 750px;">
-                        <div class="row no-gutters">
-
-                            <div class="col-md-12">
-                                <div class="card-body bg-light">
-                                    <h4 class="card-title">More Info</h4>
-                                    <hr>
-                                    <p><span class="text-dark">About The Class :</span>
-                                      {{ course.about_dance_class | linebreaks }}</p>
-                                  <p><span class="text-dark">faq :</span>
-                                      {{ course.faq | linebreaks }}</p>
-                                  <p><span class="text-dark">Experience:</span>
-                                      {{ course.experience | linebreaks }}</p>
-                                  <p><span class="text-dark">Clothes:</span>
-                                      {{ course.clothes | linebreaks }}</p>
-                                  <p><span class="text-dark">Average Age :</span>
-                                      {{ course.average_age | linebreaks }}</p>
-                                  <p><span class="text-dark">Is this a  Drop in class or Course:</span>
-                                      {{ course.drop_in | linebreaks }}</p>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                {% endfor %}
 
 
 
-
-
-
-              {% if request.user == course.author %}
-
-              <div class="tag-widget post-tag-container mb-5 mt-5">
-                  <a href="{% url 'courses:delete-course' course.pk course.slug %}" class="btn btn-danger btn-sm py-1 mr-1">Delete</a>
-                  <a href="{% url 'courses:update-course' course.pk course.slug %}" class="btn btn-primary btn-sm py-1 mr-1">Update</a>
-              </div>
-
-              {% endif %}
-
-
-
-
-            <div class="card mb-3 bg-light border-0" style="max-width: 750px;">
-                        <div class="row no-gutters">
-
-                            <div class="col-md-12">
-                                <div class="card-body bg-light">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <h4 class="card-title">Reviews</h4>
-                                    </div>
-                                {% if request.user != course.author %}
-                                    {% if request.user not in commenters %}
-                                        <div class="col-6">
-                                            <a href="{% url 'courses:create-review' course.pk  %}" class="btn btn-outline-info float-right py-0">Write Review</a>
-                                        </div>
-
-                                    {% else %}
-                                        <div class="col-6">
-                                        <p class="text-sm float-right">You have written a  review</p>
-                                        </div>
-                                    {% endif %}
-                                {% endif %}
-                                </div>
-
-
-
-
-
-
-                                    {%  for rating in ratings %}
-
-
-                                    <div class="card mb-2">
-                                      <div class="card-body py-1">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <p class="text-left">{{ rating.user.first_name | title }}</p>
-                                                <h5 class="pb-0 mb-0">{{ rating.rating }}</h5>
-
-                                            </div>
-                                            <div class="col-md-9">
-                                                <p>{{ rating.comment }}</p>
-                                            </div>
-
-                                        </div>
-                                          {% if request.user == rating.user %}
-                                          <div class="row">
-
-                                                    <div class="col-12">
-                                                        <a href="{% url 'courses:delete-review' rating.pk  %}" class=" btn btn-outline-danger btn-sm py-0 float-right">Delete Review</a>
-                                                        <a href="{% url 'courses:update-review' rating.pk  %}" class=" btn btn-outline-info btn-sm py-0 mr-2 float-right">Update Review</a>
-
-                                                    </div>
-
-                                                </div>
-                                          {% endif %}
-                                      </div>
-                                    </div>
-
-                                    {% endfor %}
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-
-
-          </div> <!-- .col-md-8 -->
-          <div class="col-md-4 sidebar ftco-animate">
-
-          <div class="sidebar-box ftco-animate pt-1">
-              <div class="categories">
-                <h3>Dance Styles</h3>
-                  {% for style in styles %}
-                <li><a href="{% url 'courses:style_detail' style.pk style.slug %}">{{ style.name }} <span>({{ style.dance_style_count }})</span></a></li>
-                  {% endfor %}
-
-              </div>
-            </div>
-
-            <div class="sidebar-box ftco-animate pt-1">
-              <div class="categories">
-                <h3>Levels</h3>
-                  {% for level in levels %}
-                <li><a href="{% url 'courses:level_detail' level.pk level.title %}">{{ level.title }} <span>({{ level.courses_count }})</span></a></li>
-                  {% endfor %}
-
-              </div>
-            </div>
-
-
-
-            <div class="sidebar-box ftco-animate">
-              <h3>Promo</h3>
 
             </div>
+</section>
 
 
-          </div>
 
-        </div>
-      </div>
-    </section> <!-- .section -->
-{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{%  endblock %}

@@ -2,24 +2,31 @@
 <!DOCTYPE html>
 <html lang="en">
 {% include 'partials/_head.html' %}
-  <body>
+<body>
 
+
+    <!--Nav markup goes here-->
 {% include 'partials/_nav.html' %}
-    <!-- END nav -->
+
+<!--End nav-->
+
+
 
     {% block content %}
 
+
+
+
+
     {% endblock %}
 
-{% include 'partials/_footer.html' %}
 
 
 
-  <!-- loader -->
-  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
 
-{% include 'partials/_static.html' %}
+  {% include 'partials/_footer.html' %}
 
-  </body>
+   {% include 'partials/_scripts.html' %}
+</body>
 </html>

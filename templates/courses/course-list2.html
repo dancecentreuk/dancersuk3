@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+
+        <!-- Introduction-->
+    <section class="intro" id="home">
+        <h1 class="section__title section__title--intro">
+            Find A <strong> Dance Class </strong>
+        </h1>
+        <p class="section__subtitle section__subtitle--intro">Over {{ all_dance_courses }} Classes</p>
+        <img src="{% static 'images/dance-manchester.jpg' %}" class="intro__img" alt="a picture of jane smiling">
+
+    </section>
+
+
+
+
+
+
+     <!-- Search -->
+     <section class="my-search">
+
+        <div class="box">
+            <h1 class="section__title section__title--search">What Now ?</h1>
+            <form action="">
+                <div class="form-row">
+                    <div class="select-data">
+                        <select name="" id="">
+                            <option value="">Option One</option>
+                            <option value="">Option Two</option>
+                            <option value="">Option Three</option>
+                            <option value="">Option Four</option>
+                        </select>
+                    </div>
+                    <div class="select-data">
+                        <select name="" id="">
+                            <option value="">Option One</option>
+                            <option value="">Option Two</option>
+                            <option value="">Option Three</option>
+                            <option value="">Option Four</option>
+                        </select>
+                    </div>
+                    <div class="select-data">
+                        <select name="" id="">
+                            <option value="">Option One</option>
+                            <option value="">Option Two</option>
+                            <option value="">Option Three</option>
+                            <option value="">Option Four</option>
+                        </select>
+                    </div>
+                    <div class="select-data">
+                        <select name="" id="">
+                            <option value="">Option One</option>
+                            <option value="">Option Two</option>
+                            <option value="">Option Three</option>
+                            <option value="">Option Four</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="submit-button">
+                    <input type="submit" value="search">
+                </div>
+
+
+
+            </form>
+        </div>
+
+    </section>
+
+
+
+
+    <!-- End Search -->
+
+
+
+
+
+    <!-- Courses -->
+
+    <section id="course" class="courses">
+        <h2 class="section__title section__title--courses">Dance <span>Classes</span> </h2>
+
+        <div class="courses-items">
+            <!--course item 1-->
+
+            {% for course in courses %}
+                 <div class="course-item">
+                <div class="course-detail">
+                    <div class="course-heading">
+                        <div class="course-title">
+                           <h3 class="course-title">{{ course.title}}  </h3>
+                        </div>
+                        <div class="course-age">
+                            <button class="{{ course.age_group }}-btn btn-outline">{{ course.age_group }}</button>
+                        </div>
+                    </div>
+                    <div class="course-info">
+                        <div class="course-col"><i class="fas fa-user"></i>{{ course.author.first_name | title }}</div>
+                        <div class="course-col"><i class="far fa-star"></i>{{ course.dance_style |title }}</div>
+                        <div class="course-col"><i class="far fa-calendar-alt"></i>{{ course.day }}s ({{ course.start_time }}-{{ course.end_time }})</div>
+                        <div class="course-col"><i class="fas fa-layer-group"></i>{{ course.course_level }}</div>
+                        <div class="course-col"><i class="fas fa-thumbtack"></i>{{ course.location | title }}</div>
+                    </div>
+                </div>
+                <div class="course-view">
+{#                    <button  class="btn-view">View</button>#}
+                    <a href="{% url 'courses:course-detail' course.pk course.slug %}" class="btn-view">View</a>
+
+                </div>
+            </div>
+            {% endfor %}
+
+
+        </div>
+
+
+
+
+    {% if is_paginated %}
+        <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="prev"><i class="fas fa-angle-left"></i></a>
+        {% else %}
+            <a class="prev"><i class="fas fa-angle-left"></i></a>
+        {% endif %}
+         {% for i in paginator.page_range %}
+              {% if page_obj.number == i %}
+                  <a class="num active">{{ i }}</a>
+              {% else %}
+                  <a href="?page={{ i }}" class="num">{{ i }}</a>
+              {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="next"><i class="fas fa-angle-right"></i></a>
+        {% else %}
+            <a class="next"><i class="fas fa-angle-right"></i></a>
+        {% endif %}
+
+
+        </div>
+
+    {% endif %}
+
+
+
+
+
+
+    </section>
+
+
+
+    <!--end courses-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- dance  style-->
+
+
+
+    <section class="dance-styles-course">
+        <h2 class="section__title section__title--style">Dance Class <span>Style</span> </h2>
+
+        <!--style item 1-->
+        <div class="categories">
+
+            <ul class="styles">
+            {% for style in styles %}
+                <li class="style__shell"><a href="" class="style__item">{{ style.name }} <span> ({{ style.dance_style_count }})</span> </a></li>
+            {% endfor %}
+            </ul>
+
+
+        </div>
+
+
+    </section>
+
+
+{% endblock %}

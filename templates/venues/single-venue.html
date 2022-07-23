@@ -2,204 +2,196 @@
 {% load static %}
 {% load humanize %}
 
+
 {% block content %}
 
-    <div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/ballet_bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start" data-scrollax-parent="true">
-            {% include 'partials/_alerts.html' %}
-          <div class="col-md-8 ftco-animate text-center text-md-left mb-5" data-scrollax=" properties: { translateY: '70%' }">
-          	<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-3"><a href="{% url 'pages:home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-3"><a href="{% url 'venues:venues' %}">Venues <i class="ion-ios-arrow-forward"></i></a></span> <span>Detail</span></p>
-            <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Venue Detail</h1>
-          </div>
+
+
+
+
+
+
+     <section class="section__container-venue" id="about">
+
+
+        <div class="about-venue">
+            <h2 class="section__title section__title--venue">{{ venue.name | title }}</h2>
+        <p class="section__subtitle section__subtitle--venue">{{ venue.location | title }}</p>
+
+        <div class="about-me__venue">
+            <p>{{ venue.about_venue | title  }}</p>
+            </div>
+
+
+        <img src="{{ venue.venue_image.url }}" alt="jane leaning on  a bus" class="about-venue__img">
+           {% if request.user == venue.author %}
+
+            <a href="{% url 'venues:update-venue' venue.pk %}"><button class="btn  btn__message-talent">UPDATE
+                </button></a>
+
+        {% else %}
+            <a href="{% url 'mail:create-communication-venue' venue.pk  %}"><button class="btn  btn__message-venue">MESSAGE
+                </button></a>
+        {% endif %}
+
+
+
+
         </div>
-      </div>
+
+    </section>
+
+
+
+
+
+
+
+
+    <!-- Search -->
+    <!-- <section class="my-search">
+        <h1 class="section__title section__title--search">What Now ?</h1>
+
+    </section> -->
+
+    <!-- End Search -->
+
+
+
+
+
+
+
+    <section class="section__container section__container-photos section__container-light">
+        <div class="venue__images">
+            <div class="profile-space">
+                <h2 class="section__title--profile section__title--venue underline">{{ venue.name | title}}'s Photos</h2>
+            </div>
+
+
+            <div class="portfolio">
+
+                <!--porfolio item 1 -->
+            {% if venue.venue_image_1 %}
+                <a href="#" class="portfolio__item">
+                    <img src="{{ venue.venue_image_1.url }}" alt="" class="portfolio__img">
+                </a>
+            {% endif %}
+
+                <!--porfolio item 2-->
+                {% if venue.venue_image_2 %}
+                <a href="#" class="portfolio__item">
+                    <img src="{{ venue.venue_image_2.url }}" alt="" class="portfolio__img">
+                </a>
+                {% endif %}
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <section class="section__container">
+    <div class="heading__holder">
+        <h2 class="heading underline"><span>Venue info</span></h2>
+        <p class="venue-rating "><span>Rating : 7/10</span></p>
     </div>
 
-    <section class="ftco-section ftco-degree-bg">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 ftco-animate">
+        <div class="inner__grey">
+            <div class="left__column left__column-venue">
+                <img src="{{ venue.venue_image.url }}" class="left__column-img"  alt="a picture of jane smiling">
+                <div class="update-btn__holder">
+                    <button class="btn btn__update">Contact Venue</button>
 
 
-
-
-          <div class="card mb-3 bg-light border-0" style="max-width: 750px;">
-                        <div class="row no-gutters">
-                            <div class="col-md-4 p-4">
-                                <div class="row">
-                                    <img src="{{ venue.venue_image.url }}" class="card-img" alt="..." style="max-height: 25rem">
-                                </div>
-                            <div class="row py-1">
-                                    <a href="{% url 'mail:create-communication-venue' venue.pk %}" class="btn btn-outline-info btn-block py-1">
-                                        Message Venue
-                                    </a>
-                            </div>
-                                <div class="row">
-                                    <div class="tag-widget post-tag-container mb-1 mt-2">
-              <div class="tagcloud">
-              <div class="amenitiesheading h5">
-                  Amenities
-              </div>
-
-                  {% if venue.mirrors == True %}
-                      <a class="tag-cloud-link btn-block">Mirrors</a>
-                  {% endif %}
-                  {% if venue.wooden_floor == True%}
-                      <a class="tag-cloud-link btn-block">Wooden Floor</a>
-                  {% endif %}
-                  {% if venue.music_system == True%}
-                      <a class="tag-cloud-link btn-block">Music System</a>
-                  {% endif %}
-
-
-              </div>
+                </div>
             </div>
-                                </div>
+            <div class="right__column right__column-venue">
+                <p class="heading">{{ venue.name | title}}</p>
+            <table class="attributes">
+                <tbody>
+                    <tr>
+                        <td>{{ venue.address | title }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>{{ venue.location | title }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>{{ venue.postcode | title}}</td>
+                    </tr>
+                    <tr>
+
+                        <td>£{{ venue.cost}} ph</td>
+                    </tr>
+                    <tr>
+
+                        <td>{{venue.contact | title}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ venue.contact_mobile }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ venue.contact_email }}</td>
+                    </tr>
+
+                    <tr>
+
+                        <td class="updated">last updated : {{ venue.updated | naturaltime }}</td>
+                    </tr>
 
 
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body bg-light">
-                                    <h4 class="card-title">{{ venue.name| title }} </h4>
-                                    <hr>
-                                    <div class="row no-gutters">
-                                <div class="container-fluid">
-                                    <div class="mt-1 numbers d-flex flex-md-row flex-wrap ">
+                </tbody>
 
-                                        {% if venue.venue_image_1 %}
+            </table>
 
-                                    <div class="gallery rect-2 mt-0">
-                                        <a href="{{ venue.venue_image_1 }}" data-lightbox="mygallery" data-title="">
-                                            <img src="{{ venue.venue_image_1.url }}" alt="{{ venue.name }} image-1"/>
-                                        </a>
-                                    </div>
-                                        {% endif %}
-
-
-                                        {% if venue.venue_image_2 %}
-                                            <div class="gallery rect-2 mt-0">
-                                                <a href="{{ venue.venue_image_2.url }}" data-lightbox="mygallery" data-title="">
-                                                    <img src="{{ venue.venue_image_2.url }}" alt="{{ venue.name }} image-2"/>
-                                                </a>
-                                            </div>
-                                        {% endif %}
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                                    <div class="col-12 text-dark" style="font-size: 1.1em;">Venue Type : {{ venue.category | title }}
-                                        <br></div>
-                                    <div class="col-12 text-dark mt-2" style="font-size: 1em;">Address</div>
-                                    <div class="col-12">{{ venue.address |title }}</div>
-                                    <div class="col-12">{{ venue.location }}</div>
-                                    <div class="col-12">{{ venue.postcode }}</div>
-                                    <div class="col-12 text-dark mt-2" style="font-size: 1em;">Cost: £{{ venue.cost }}ph</div>
-                                    <div class="col-12"><p class="card-text"><small class="text-muted">Last
-                                        updated {{ venue.updated_info | naturaltime }}</small></p></div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-                    <div class="card mb-3 bg-light border-0" style="max-width: 750px;">
-                        <div class="row no-gutters">
-                            <div class="col-md-12">
-                                <div class="card-body bg-light">
-                                    <h5>Notes: </h5>
-                                    <div class="col-12"> {{ venue.notes | title }}</div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row no-gutters">
-                            <div class="col-md-9">
-                                <div class="card-body bg-light">
-                                    <h5 class="card-title">Contact Details</h5>
-                                    <hr>
-
-                                    <div class="col-12"> Venue Coordinator : {{ venue.contact | title }}</div>
-                                    <div class="col-12">Email: {{ venue.contact_email }}</div>
-                                    <div class="col-12">Tel: {{ venue.contact_mobile }}</div>
-                                    <div class="col-12"><p class="card-text"><small class="text-muted">Last
-                                        updated {{ venue.updated_info | naturaltime }}</small></p></div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="card-body bg-light">
-
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-              <hr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-              {% if request.user == venue.author %}
-
-              <div class="tag-widget post-tag-container mb-5 mt-5">
-                  <a href="{% url 'venues:delete-venue' venue.pk %}" class="btn btn-danger btn-sm py-1 mr-1">Delete</a>
-                  <a href="{% url 'venues:update-venue' venue.pk %}" class="btn btn-primary btn-sm py-1 mr-1">Update</a>
-              </div>
-
-              {% endif %}
-
-
-
-
-
-
-          </div> <!-- .col-md-8 -->
-          <div class="col-md-4 sidebar ftco-animate">
-
-            <div class="sidebar-box ftco-animate pt-1">
-              <div class="categories">
-                <h3 class="text-info pt-0">Categories</h3>
-                  {% for category in categories %}
-                <li><a href="">{{ category.title }} <span>({{ category.categories_count }})</span></a></li>
-                  {% endfor %}
-
-              </div>
             </div>
-
-
-
-            <div class="sidebar-box ftco-animate">
-              <h3>Advert</h3>
-              <div class="tagcloud">
-
-              </div>
-            </div>
-
-
-          </div>
 
         </div>
-      </div>
-    </section> <!-- .section -->
-{% endblock %}
+        <div class="inner__white">
+            <h2 class="heading underline">Venue Info</h2>
+            <table class="table--striped" cellspacing="0" style="border-collapse:collapse">
+                <tbody>
+                    <tr>
+                        <td class="striped-table__cell">
+                            <div class="striped-table__label">Size sqft:</div>
+                            1000 sqft
+                        </td>
+                        <td class="striped-table__cell">
+                            <div class="striped-table__label">Flooring</div>
+                            {{ venue.floor_type }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="striped-table__cell">
+                            <div class="striped-table__label">Mirrors:</div>
+                            {{ venue.mirrors_results }}
+                        </td>
+                        <td class="striped-table__cell">
+                            <div class="striped-table__label">Music System:</div>
+                            {{ venue.musicsystem_results}}
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+
+
+        </div>
+        <div class="inner__white">
+            <h2 class="heading underline">Venue Info</h2>
+            <h4>Bio</h4>
+            {{ venue.about_venue }}
+
+        </div>
+
+    </section>
+
+
+
+{%  endblock %}

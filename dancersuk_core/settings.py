@@ -89,8 +89,8 @@ WSGI_APPLICATION = 'dancersuk_core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dancersuk1_db',
-        'USER': 'app_user',
+        'NAME': 'dancersuk2000db',
+        'USER': 'postgres',
         'PASSWORD': 'passw0rd',
         'HOST': 'localhost',
     }
@@ -161,7 +161,7 @@ CKEDITOR_CONFIGS = {
     }
 }
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'uni_form'
 
 
 #messages

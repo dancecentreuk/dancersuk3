@@ -48,7 +48,7 @@ def inbox_2(request):
         'conversations': conversations,
         # 'new_chats' : new_chats
     }
-    return render(request, 'mail/inbox_2.html', context)
+    return render(request, 'mail/inbox.html', context)
 
 def outbox(request):
     conversations = Conversation.objects.filter(conversations__sender=request.user).order_by('-updated').distinct()

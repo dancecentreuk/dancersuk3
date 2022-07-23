@@ -80,6 +80,12 @@ class Account(AbstractBaseUser, PermissionsMixin):
     def has_dancers_profile(self):
         return hasattr(self, 'dancers_profile')
 
+    def has_customer_membership(self):
+        return hasattr(self, 'customer_membership')
+
+
+
+
 
 
 
@@ -103,6 +109,11 @@ class Profile(models.Model):
                               null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    stripeid = models.CharField(max_length=255, null=True, blank=True)
+    stripesubscription = models.CharField(max_length=255, null=True, blank=True)
+    cancel_at_period_end = models.BooleanField(default=False)
+    membership = models.BooleanField(default=False)
+    paid_until = models.DateField(null=True, blank=True)
 
 
 
@@ -118,6 +129,12 @@ class Profile(models.Model):
             pass
         else:
             return int((datetime.now().date() - self.date_of_birth).days / 365.25)
+
+    def membership_status(self):
+        if self.membership == True:
+            return ('Valid membership')
+        else:
+            return ('no membership')
 
 
 
@@ -172,16 +189,14 @@ def create_user_profile(sender, instance, created,  **kwargs,):
 post_save.connect(create_user_profile, sender=Account)
 
 
-# @receiver(models.signals.pre_save, sender=Account)
-# def pre_save_user_signal(sender, instance,  **kwargs):
-#     if created:
-#         instance.save()
-#
-# def create_user_profile(sender, instance,   **kwargs,):
-#         Profile.objects.create(user=instance, location=instance.location)
-#
-#
-# pre_save.connect(create_user_profile, sender=Account)
+class Customer(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE, related_name='customer_membership')
+    stripeid = models.CharField(max_length=255)
+    stripe_subscription_id = models.CharField(max_length=255)
+    cancel_at_period_end = models.BooleanField(default=False)
+    membership = models.BooleanField(default=False)
+    paid_until = models.DateField(null=True, blank=True)
+
 
 
 class CompanyProfile(models.Model):

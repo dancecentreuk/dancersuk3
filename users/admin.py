@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Account, Profile, CompanyProfile, DancersProfile, DancerImage
+from .models import Account, Profile, CompanyProfile, DancersProfile, DancerImage, Customer
 from django.contrib.auth.admin import UserAdmin
 
 
@@ -31,3 +31,5 @@ admin.site.register(Profile)
 admin.site.register(DancersProfile)
 admin.site.register(CompanyProfile)
 admin.site.register(DancerImage)
+admin.site.register(Customer)
+

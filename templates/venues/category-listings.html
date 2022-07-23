@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+
+
+
+
+     <!-- Introduction-->
+    <section class="intro" id="home">
+        <h1 class="section__title section__title--intro">
+            Find A <strong> Dance Venue </strong>
+        </h1>
+        <p class="section__subtitle section__subtitle--intro">Over {{ total_count }} Dance Venues</p>
+        <img src="{% static 'images/dance-manchester.jpg' %}" class="intro__img" alt="a picture of jane smiling">
+
+    </section>
+
+
+
+
+
+
+     <!-- Search -->
+     <section class="my-search">
+
+        <div class="box">
+            <h2 class="section__title section__title--search">Search Dance Venues</h2>
+            <form action="">
+                <div class="form-row">
+                    <div class="select-data">
+                        <select name="" id="">
+                            <option value="">Option One</option>
+                            <option value="">Option Two</option>
+                            <option value="">Option Three</option>
+                            <option value="">Option Four</option>
+                        </select>
+                    </div>
+                    <div class="select-data">
+                        <select name="" id="">
+                            <option value="">Option One</option>
+                            <option value="">Option Two</option>
+                            <option value="">Option Three</option>
+                            <option value="">Option Four</option>
+                        </select>
+                    </div>
+                    <div class="select-data">
+                        <select name="" id="">
+                            <option value="">Option One</option>
+                            <option value="">Option Two</option>
+                            <option value="">Option Three</option>
+                            <option value="">Option Four</option>
+                        </select>
+                    </div>
+                    <div class="select-data">
+                        <select name="" id="">
+                            <option value="">Option One</option>
+                            <option value="">Option Two</option>
+                            <option value="">Option Three</option>
+                            <option value="">Option Four</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="submit-button">
+                    <input type="submit" value="search">
+                </div>
+
+
+
+            </form>
+        </div>
+
+    </section>
+
+
+
+
+    <!-- End Search -->
+
+
+
+
+
+    <section class="section__container">
+        <h1 class="section__title section__title--courses">Dance <span>Venues</span> </h1>
+
+
+
+        <div class="create">
+           <a href="{% url 'venues:add-venue' %}" class="btn create__btn">Add Venue</a>
+        </div>
+
+
+
+
+
+
+
+        <div class="list__items">
+
+            {% for venue in listings %}
+
+                <div class="item">
+                <div class="item__left">
+                    <div class="item__heading">
+                        <h3 class="heading heading__item">{{ venue.name | title }}</h3>
+                        <div class="item__heading-btn">
+                           <button class="btn__display">£{{ venue.cost }}</button>
+                        </div>
+                    </div>
+                    <div class="item__info">
+                        <div class="item__col"><i class="fas fa-user"></i>{{ venue.author.first_name }}</div>
+                        <div class="item__col"><i class="fas fa-money-bill"></i>£{{ venue.cost }}</div>
+                        <div class="item__col"><i class="fas fa-layer-group"></i>{{ venue.category | title}}</div>
+                        <div class="item__col"><i class="fas fa-thumbtack"></i>{{ venue.location | title }}</div>
+                    </div>
+
+
+                </div>
+                <div class="item__right">
+
+                    <button class="btn btn__view">View</button>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+
+
+
+             <div class="pagination">
+                {% if is_paginated %}
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="pagination__btn prev "><i class="fas fa-angle-left"></i></a>
+                    {% else %}
+                        <a  class="pagination__btn prev disabled"><i class="fas fa-angle-left"></i></a>
+                    {% endif %}
+                        {% for i in paginator.page_range %}
+                            {% if page_obj.number == i %}
+                                <a  class="pagination__btn num active">{{ i }}</a>
+                            {% else %}
+                                <a href="?page={{ i }}"  class="pagination__btn num">{{ i }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}" class="pagination__btn next "><i class="fas fa-angle-right"></i></a>
+                        {% else %}
+                            <a class="pagination__btn next disabled"><i class="fas fa-angle-right"></i></a>
+                        {% endif %}
+                    {% endif %}
+
+            </div>
+
+
+
+
+
+        </div>
+
+    </section>
+
+
+     <section class="section__container">
+        <h2 class="heading underline">Venue Categories</h2>
+
+        <div class="categories">
+
+
+
+
+            <ul class="category__items category__items-courses">
+                {% for category  in categories %}
+                    {% if category.categories_count > 500 %}
+                        <li class="category__shell"><a href="{% url 'venues:venue-category' category.slug category.pk %}" class="category__item">{{ category.title }} <span> ({{ category.categories_count }})</span> </a></li>
+                    {% endif %}
+                {% endfor %}
+
+            </ul>
+
+       </div>
+
+
+    </section>
+
+
+
+
+    <!--end courses-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
