@@ -10,6 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+"""
+below is to deal with django 4
+"""
+import django
+from django.utils.encoding import force_str
+django.utils.encoding.force_text = force_str
+
+
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
