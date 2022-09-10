@@ -9,7 +9,6 @@ from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
-
 from .models import Profile, DancersProfile, Account, CompanyProfile, DancerImage, Customer
 from jobs.models import Listing
 from courses.models import WeeklyDanceClass
@@ -123,16 +122,19 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
         date_of_birth = form.cleaned_data['date_of_birth']
         gender = form.cleaned_data['gender']
         email = form.cleaned_data['email']
-        user_type = form.cleaned_data['user_types']
-        if user_type == 'is_dancer':
-            user.is_dancer = True
-        elif user_type == 'is_employer':
-            user.is_employer = True
+        # user_type = form.cleaned_data['user_types']
+        # if user_type == 'is_dancer':
+        #     user.is_dancer = True
+        # elif user_type == 'is_employer':
+        #     user.is_employer = True
         user._location = location
         user._gender = gender
         user._date_of_birth = date_of_birth
         user.is_active = False
         user.save()
+
+        #send verification email
+
 
         uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
 
@@ -143,15 +145,17 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
         activate_url = 'http://' + domain + link
 
         email_subject = 'Activate your account'
-        email_body = 'Hi ' + user.first_name + ' Ps use the link below to activate your account\n' + activate_url
+        email_body = 'Hi ' + user.first_name + ' Pls use the link below to activate your account\n' + activate_url
         email_address = form.cleaned_data.get('email')
         email = EmailMessage(
             email_subject,
             email_body,
             'noreply@dance.com',
-            [email_address]
+            [email]
 
         )
+
+        email.send(fail_silently=False)
 
         EmailThread(email).start()
         messages.add_message(self.request, messages.SUCCESS, 'You are now registered ps check your email to activate your account')

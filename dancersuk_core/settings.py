@@ -182,12 +182,28 @@ MESSAGE_TAGS = {
 
 #email
 
-EMAIL_HOST = 'mail.uk2.net'
-EMAIL_HOST_USER = 'message@dancecentreuk.co.uk'
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'message@dancecentreuk.co.uk'
-EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = 'passw0rd'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+#
+# EMAIL_HOST_USER = 'dancecentreuk@gmail.com'
+# EMAIL_HOST_PASSWORD = 'nssqgkodpzydtdmb'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
+
+
+# EMAIL_HOST = 'mail.uk2.net'
+#
+# EMAIL_HOST_USER = 'signup@yorkdancecentre.co.uk'
+# EMAIL_HOST_PASSWORD = 'welcome123'
+# EMAIL_PORT = 465
+# EMAIL_USE_TLS = True
+
+# DEFAULT_FROM_EMAIL = 'aberdeen@dancecentreuk.co.uk'
+
+
+
+
 
 
 try:

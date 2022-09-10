@@ -14,14 +14,13 @@ class LoginForm(AuthenticationForm):
 
 
 class AccountRegisterForm(UserCreationForm):
-    user_types = forms.CharField(label='User Type',
-                                 widget=forms.RadioSelect(choices=account_type_choice))
+
 
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'new-input'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'new-input'}))
 
     first_name = forms.CharField(
-        label='Firstname', min_length=4, max_length=50, widget=forms.TextInput(
+        label='Firstname', min_length=1, max_length=50, widget=forms.TextInput(
             attrs={'class': 'new-input', 'placeholder': 'Firstname', 'id': 'form_firstname'}))
 
     last_name = forms.CharField(
@@ -59,7 +58,7 @@ class AccountRegisterForm(UserCreationForm):
 
     class Meta:
         model = Account
-        fields = ['email', 'first_name', 'last_name', 'password1', 'password2']
+        fields = ['email', 'first_name', 'last_name', 'gender', 'location', 'date_of_birth', 'password1', 'password2']
 
 
 
@@ -95,12 +94,7 @@ class UserUpdateForm(forms.ModelForm):
 
 class DancersUpdateForm(forms.ModelForm):
 
-    weight = forms.CharField(label='Weight',
-                               widget=forms.Select(choices=kg_choices,
-                                                   attrs={'class': 'new-input__modal', 'label': 'Your Weight',
-                                                          }
-                                                   )
-                               )
+
 
     bio = forms.CharField(label='Bio',
                              widget=forms.Textarea(
@@ -131,23 +125,12 @@ class DancersUpdateForm(forms.ModelForm):
 
     class Meta:
         model = DancersProfile
-        fields = [ 'dancers_image', 'location', 'primary_job',  'bio', 'experience',  'credits', 'height',  'build',
-                   'dress', 'waist', 'hip', 'bust', 'weight', 'hair', 'eye', 'ethnicity', 'skin']
+        fields = [ 'dancers_image', 'location', 'primary_job',  'bio', 'experience',  'credits', ]
 
         widgets = {
 
             'primary_job': forms.Select(attrs=({'class': 'new-input__modal'})),
-            'dress': forms.Select(attrs=({'class': 'new-input__modal'})),
-            'waist': forms.Select(attrs=({'class': 'new-input__modal'})),
-            'hip': forms.Select(attrs=({'class': 'new-input__modal'})),
-            'bust': forms.Select(attrs=({'class': 'new-input__modal'})),
-            'hair': forms.Select(attrs=({'class': 'new-input__modal'})),
-            'eye': forms.Select(attrs=({'class': 'new-input__modal'})),
-            'weight': forms.Select(attrs=({'class': 'new-input__modal'})),
-            'ethnicity': forms.Select(attrs=({'class': 'new-input__modal'})),
-            'skin': forms.Select(attrs=({'class': 'new-input__modal'})),
-            'build': forms.Select(attrs=({'class': 'new-input__modal'})),
-            'height': forms.Select(attrs=({'class': 'new-input__modal'})),
+
             # 'bio': forms.Textarea(
             #     attrs={'class': 'new-input__modal', 'rows':'3', 'cols':'5', 'placeholder': 'Enter Mobile', 'required': True}),
 

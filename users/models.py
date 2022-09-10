@@ -55,8 +55,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
     is_active = models.BooleanField(_('active'), default=True)
     is_staff = models.BooleanField(_('is staff'), default=False)
-    is_dancer = models.BooleanField(default=False)
-    is_employer = models.BooleanField(default=False)
+
 
     # def get_absolute_url(self):
     #     return reverse('users:profile', kwargs={'pk': self.id})
@@ -228,46 +227,6 @@ class DancersProfile(models.Model):
                                    blank=True,
                                    default='0',
                                    choices=primary_job_choices)
-    waist = models.IntegerField(blank=True,
-                                   default='0',
-                                   choices=cm_choices)
-    build = models.CharField(max_length=30,
-                             blank=True,
-                             null=True,
-                             choices=build_choices)
-    bust = models.IntegerField(blank=True,
-                             default='0',
-                             choices=cm_choices)
-    hip = models.IntegerField(blank=True,
-                               default='0',
-                               choices=cm_choices)
-    height = models.IntegerField(blank=True,
-                              default='0',
-                              choices=height_choices)
-    weight = models.IntegerField(blank=True,
-                              choices=kg_choices)
-    dress = models.CharField(max_length=20,
-                            blank=True,
-                            default='Not Applicable',
-                            choices=dress_choices)
-    # weight = models.IntegerField(choices=list(zip(range(10, 140), range(10, 140))), unique=True, blank=True, null=True)
-    hair = models.CharField(max_length=20,
-                            blank=True,
-                            default='no-option',
-                            choices=hair_color_choices)
-    eye = models.CharField(max_length=20,
-                           blank=True,
-                           default='no-option',
-                           choices=eye_color_choices)
-    ethnicity = models.CharField(max_length=30,
-                                 blank=True,
-                                 default='no-option',
-                                 choices=ethnicity_choices)
-
-    skin = models.CharField(max_length=30,
-                                 blank=True,
-                                 default='no-option',
-                                 choices=skin_choices)
 
 
 
